@@ -11,6 +11,7 @@
 @interface RPDViewControllerAuto ()
 
 @property NSMutableArray *imgSamples;
+@property int imgIndex;
 
 @end
 
@@ -41,23 +42,29 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor yellowColor];
     _imgSamples = [NSArray arrayWithObjects:@"04.jpeg", @"02.jpeg", nil];
-    
-	// Do any additional setup after loading the view.
-    // 画面の上半分に配置
-    {
-        NSString *st =[_imgSamples objectAtIndex:0];
-        UIImageView *imgview1 = [self createImageViewWithName:st];
-        CGSize frameSize = self.view.frame.size;
-        imgview1.frame = CGRectMake(0, 0, frameSize.width, frameSize.height/2);
-        [self.view addSubview:imgview1];
-    }
-    
-    // 画面の下半分に配置
-    {
-        UIImageView *imgview2 = [self createImageViewWithName:@"img1.png"];
-        CGSize frameSize = self.view.frame.size;
-        imgview2.frame = CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2);
-        [self.view addSubview:imgview2];
+    _imgIndex = 0;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+// implement protcol
+- (void)tabBarDidSelect
+{
+    // 自身がタブバーで選択された時に呼ばれる
+    [self addIndex];
+    [self loadFirstImageView];
+}
+
+///  内部メソッド
+- (void)addIndex
+{
+    ++_imgIndex;
+    if (_imgIndex >= [_imgSamples count]){
+        _imgIndex = 0;
     }
 }
 
@@ -70,18 +77,29 @@
     return imgview1;
 }
 
-
-- (void)didReceiveMemoryWarning
+- (void)loadFirstImageView
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // 画面の上半分に配置
+    {
+        int index = _imgIndex;
+        NSString *st =[_imgSamples objectAtIndex:index];
+        UIImageView *imgview1 = [self createImageViewWithName:st];
+        CGSize frameSize = self.view.frame.size;
+        imgview1.frame = CGRectMake(0, 0, frameSize.width, frameSize.height/2);
+        [self.view addSubview:imgview1];
+    }
+    
 }
 
-
-// implement protcol
-- (void)tabBarDidSelect
+- (void)loadSecondImageView
 {
-    // 自身がタブバーで選択された時に呼ばれる
-    int hoge = 9;
+    // 画面の下半分に配置
+    {
+        UIImageView *imgview2 = [self createImageViewWithName:@"img1.png"];
+        CGSize frameSize = self.view.frame.size;
+        imgview2.frame = CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2);
+        [self.view addSubview:imgview2];
+    }
 }
+
 @end
