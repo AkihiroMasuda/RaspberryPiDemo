@@ -24,7 +24,15 @@
 		C3BE9B6D181D033300EC196D /* settings_32.png in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B6C181D033300EC196D /* settings_32.png */; };
 		C3BE9B70181D036500EC196D /* RPDViewControllerSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B6F181D036500EC196D /* RPDViewControllerSetting.m */; };
 		C3BE9B72181D04BC00EC196D /* refresh_32.png in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B71181D04BC00EC196D /* refresh_32.png */; };
-		C3BE9B8C181D34FB00EC196D /* sample in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B8B181D34FB00EC196D /* sample */; };
+		C3BE9B92181DFBB700EC196D /* RPDAutoStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */; };
+		C3BE9B95181E101D00EC196D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B94181E101D00EC196D /* MBProgressHUD.m */; };
+		C3BE9B98181E2B3400EC196D /* R9HTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B97181E2B3400EC196D /* R9HTTPRequest.m */; };
+		C3BE9B9F181E52B700EC196D /* 01.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B99181E52B700EC196D /* 01.jpeg */; };
+		C3BE9BA0181E52B700EC196D /* 01.png in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9A181E52B700EC196D /* 01.png */; };
+		C3BE9BA1181E52B700EC196D /* 02.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9B181E52B700EC196D /* 02.jpeg */; };
+		C3BE9BA2181E52B700EC196D /* 03.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9C181E52B700EC196D /* 03.jpeg */; };
+		C3BE9BA3181E52B700EC196D /* 04.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9D181E52B700EC196D /* 04.jpeg */; };
+		C3BE9BA4181E52B700EC196D /* 05.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9E181E52B700EC196D /* 05.jpeg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,8 +70,19 @@
 		C3BE9B6E181D036500EC196D /* RPDViewControllerSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerSetting.h; sourceTree = "<group>"; };
 		C3BE9B6F181D036500EC196D /* RPDViewControllerSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPDViewControllerSetting.m; sourceTree = "<group>"; };
 		C3BE9B71181D04BC00EC196D /* refresh_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh_32.png; path = Resources/picol_prerelease_32_090119/refresh_32.png; sourceTree = "<group>"; };
-		C3BE9B8B181D34FB00EC196D /* sample */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sample; path = Resources/sample; sourceTree = "<group>"; };
 		C3BE9B8D181D474D00EC196D /* RPDViewControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerBase.h; sourceTree = "<group>"; };
+		C3BE9B90181DFBB700EC196D /* RPDAutoStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDAutoStateMachine.h; sourceTree = "<group>"; };
+		C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPDAutoStateMachine.m; sourceTree = "<group>"; };
+		C3BE9B93181E101D00EC196D /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
+		C3BE9B94181E101D00EC196D /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		C3BE9B96181E2B3400EC196D /* R9HTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = R9HTTPRequest.h; sourceTree = "<group>"; };
+		C3BE9B97181E2B3400EC196D /* R9HTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = R9HTTPRequest.m; sourceTree = "<group>"; };
+		C3BE9B99181E52B700EC196D /* 01.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 01.jpeg; path = Resources/01.jpeg; sourceTree = "<group>"; };
+		C3BE9B9A181E52B700EC196D /* 01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 01.png; path = Resources/01.png; sourceTree = "<group>"; };
+		C3BE9B9B181E52B700EC196D /* 02.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 02.jpeg; path = Resources/02.jpeg; sourceTree = "<group>"; };
+		C3BE9B9C181E52B700EC196D /* 03.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 03.jpeg; path = Resources/03.jpeg; sourceTree = "<group>"; };
+		C3BE9B9D181E52B700EC196D /* 04.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 04.jpeg; path = Resources/04.jpeg; sourceTree = "<group>"; };
+		C3BE9B9E181E52B700EC196D /* 05.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 05.jpeg; path = Resources/05.jpeg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +144,10 @@
 			children = (
 				C3BE8F4D181CD1DF00EC196D /* RPDAppDelegate.h */,
 				C3BE8F4E181CD1DF00EC196D /* RPDAppDelegate.m */,
+				C3BE9B93181E101D00EC196D /* MBProgressHUD.h */,
+				C3BE9B96181E2B3400EC196D /* R9HTTPRequest.h */,
+				C3BE9B97181E2B3400EC196D /* R9HTTPRequest.m */,
+				C3BE9B94181E101D00EC196D /* MBProgressHUD.m */,
 				C3BE8F50181CD1DF00EC196D /* Images.xcassets */,
 				C3BE8F45181CD1DF00EC196D /* Supporting Files */,
 				C3BE8F70181CDFCE00EC196D /* RPDViewControllerCamera.h */,
@@ -134,6 +157,8 @@
 				C3BE9B6E181D036500EC196D /* RPDViewControllerSetting.h */,
 				C3BE9B6F181D036500EC196D /* RPDViewControllerSetting.m */,
 				C3BE9B8D181D474D00EC196D /* RPDViewControllerBase.h */,
+				C3BE9B90181DFBB700EC196D /* RPDAutoStateMachine.h */,
+				C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */,
 			);
 			path = RaspberryPiDemo;
 			sourceTree = "<group>";
@@ -141,7 +166,12 @@
 		C3BE8F45181CD1DF00EC196D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C3BE9B8B181D34FB00EC196D /* sample */,
+				C3BE9B99181E52B700EC196D /* 01.jpeg */,
+				C3BE9B9A181E52B700EC196D /* 01.png */,
+				C3BE9B9B181E52B700EC196D /* 02.jpeg */,
+				C3BE9B9C181E52B700EC196D /* 03.jpeg */,
+				C3BE9B9D181E52B700EC196D /* 04.jpeg */,
+				C3BE9B9E181E52B700EC196D /* 05.jpeg */,
 				C3BE9B71181D04BC00EC196D /* refresh_32.png */,
 				C3BE9B6C181D033300EC196D /* settings_32.png */,
 				C3BE8F46181CD1DF00EC196D /* RaspberryPiDemo-Info.plist */,
@@ -249,10 +279,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3BE9B8C181D34FB00EC196D /* sample in Resources */,
+				C3BE9BA4181E52B700EC196D /* 05.jpeg in Resources */,
+				C3BE9BA0181E52B700EC196D /* 01.png in Resources */,
 				C3BE8F49181CD1DF00EC196D /* InfoPlist.strings in Resources */,
 				C3BE8F51181CD1DF00EC196D /* Images.xcassets in Resources */,
+				C3BE9BA1181E52B700EC196D /* 02.jpeg in Resources */,
 				C3BE9B72181D04BC00EC196D /* refresh_32.png in Resources */,
+				C3BE9B9F181E52B700EC196D /* 01.jpeg in Resources */,
+				C3BE9BA3181E52B700EC196D /* 04.jpeg in Resources */,
+				C3BE9BA2181E52B700EC196D /* 03.jpeg in Resources */,
 				C3BE9B6D181D033300EC196D /* settings_32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,8 +310,11 @@
 				C3BE8F4B181CD1DF00EC196D /* main.m in Sources */,
 				C3BE8F72181CDFCE00EC196D /* RPDViewControllerCamera.m in Sources */,
 				C3BE9B70181D036500EC196D /* RPDViewControllerSetting.m in Sources */,
+				C3BE9B92181DFBB700EC196D /* RPDAutoStateMachine.m in Sources */,
 				C3BE8F4F181CD1DF00EC196D /* RPDAppDelegate.m in Sources */,
 				C3BE8F75181CE09100EC196D /* RPDViewControllerAuto.m in Sources */,
+				C3BE9B98181E2B3400EC196D /* R9HTTPRequest.m in Sources */,
+				C3BE9B95181E101D00EC196D /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -395,12 +433,16 @@
 		C3BE8F68181CD1DF00EC196D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: AKIHIRO MASUDA (9J5TK9W6XG)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RaspberryPiDemo/RaspberryPiDemo-Prefix.pch";
 				INFOPLIST_FILE = "RaspberryPiDemo/RaspberryPiDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -408,12 +450,16 @@
 		C3BE8F69181CD1DF00EC196D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: AKIHIRO MASUDA (9J5TK9W6XG)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RaspberryPiDemo/RaspberryPiDemo-Prefix.pch";
 				INFOPLIST_FILE = "RaspberryPiDemo/RaspberryPiDemo-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -38,9 +38,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //ナビゲーションコントロールを表示する
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
+    
     _stateMachine = [[RPDAutoStateMachine alloc] initWith:self];
-    self.view.backgroundColor = [UIColor yellowColor];
-
+//    self.view.backgroundColor = [UIColor yellowColor];
+    
     // 初期化命令を発行
     [_stateMachine dispatchEvent:EVENT_INIT];
 }

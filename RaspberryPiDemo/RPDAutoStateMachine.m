@@ -11,6 +11,8 @@
 #import "R9HTTPRequest.h"
 
 #define TIMER_INTERVAL (0.5f)
+#define HEADER_HEIGHT (60)
+#define TABBAR_HEIGHT (60)
 
 @interface RPDAutoStateMachine ()
 @property RPDViewControllerAuto* vcAuto;
@@ -37,7 +39,7 @@
         _vcAuto = vcAuto;
         _curStatus = STATUS_UNKNOWN;
         _imgIndex = 0;
-        _imgSamples = [NSArray arrayWithObjects:@"02.jpeg", @"03.jpeg", @"04.jpeg", nil];
+        _imgSamples = [NSArray arrayWithObjects:@"02.jpeg", @"03.jpeg", @"04.jpeg", @"01.jpeg", @"05.jpeg", nil];
     }
     return self;
 }
@@ -129,10 +131,16 @@
 - (void) statusDistributionCalcEntry
 {
     // 分散処理開始
-    // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
-    [self createMosaicImage];
     // グルグルを表示
     [self makeAndShowIndicator];
+
+    if (false){
+        // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
+        [self createMosaicImage];
+    }else{
+        // デバッグ用
+        [self makeAndStartTimerForEventNext];
+    }
 
 }
 - (void) statusDistributionCalc:(int)event
@@ -266,10 +274,23 @@
         UIImageView *imgview1 = [self createImageViewWithName:st];
         
         CGSize frameSize = _vcAuto.view.frame.size;
-        imgview1.frame = CGRectMake(0, 0, frameSize.width, frameSize.height/2);
+        imgview1.frame = CGRectMake(0, HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2);
         [_vcAuto.view addSubview:imgview1];
         _imgv1 = imgview1;
     }
+    // ボタンを追加
+    UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [btn setTitle:@"キャンセル" forState:UIControlStateNormal];
+    btn.frame = CGRectMake(0,HEADER_HEIGHT/4,120,30);
+    [btn addTarget:self action:@selector(buttonDidPush) forControlEvents:UIControlEventTouchUpInside];
+    
+//    [_imgv1 addSubview:btn];
+    [_vcAuto.view addSubview:btn];
+}
+
+-(void)buttonDidPush
+{
+    NSLog(@"Cancel pushed.");
     
 }
 
@@ -279,7 +300,7 @@
     {
         UIImageView *imgview2 = [self createImageViewWithImage:_img2];
         CGSize frameSize = _vcAuto.view.frame.size;
-        imgview2.frame = CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2);
+        imgview2.frame = CGRectMake(0, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2 + HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2);
         [_vcAuto.view addSubview:imgview2];
         _imgv2 = imgview2;
     }
