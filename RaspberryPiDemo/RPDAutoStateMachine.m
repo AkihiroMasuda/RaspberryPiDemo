@@ -310,8 +310,8 @@
     
     // 画像をPOSTで送る
     // (テスト用のサーバにモザイク画作成サーバを使用）
-//    NSURL *URL = [NSURL URLWithString:@"http://192.168.1.3:8080/posttest"];
-    NSURL *URL = [NSURL URLWithString:@"http://192.168.43.215:8080/posttest"];
+    NSURL *URL = [NSURL URLWithString:@"http://192.168.1.2:8080/posttest"];
+//    NSURL *URL = [NSURL URLWithString:@"http://192.168.43.215:8080/posttest"];
     R9HTTPRequest *request = [[R9HTTPRequest alloc] initWithURL:URL];
     [request setHTTPMethod:@"POST"];
     // パラメータ追加
@@ -319,7 +319,8 @@
     [request addBody:txtNumOfSampleImages forKey:@"numOfSampleImages"];
     NSString* txtSrcLongSize = @"32";
     [request addBody:txtSrcLongSize forKey:@"srcLongSize"];
-    [request addBody:@"192.168.43.215" forKey:@"workers"];
+    [request addBody:@"192.168.1.2" forKey:@"workers"];
+//    [request addBody:@"192.168.43.215" forKey:@"workers"];
     NSData *pngData = [[NSData alloc] initWithData:UIImagePNGRepresentation(originalImage)];
     // set image data
     [request setData:pngData withFileName:@"sample.png" andContentType:@"image/png" forKey:@"fileUpload"];
@@ -340,6 +341,20 @@
             //        _vi.image = im;
             _img2 = im;
             [self dispatchEvent:EVENT_NEXT];
+        }else{
+            NSLog(@"responseWithData but canceled.");
+        }
+    }];
+    [request setFailedHandler:^(NSError* error){
+        // 応答が来た時の処理
+        //エラー発生
+        NSString *message = [error localizedDescription];
+        NSLog(@"Request is Faild. message:%@", message);
+        if (!_isCanceledMosaicImageCreation){
+            _img2 = nil;
+            [self dispatchEvent:EVENT_NEXT];
+        }else{
+            NSLog(@"but canceled.");
         }
     }];
     
