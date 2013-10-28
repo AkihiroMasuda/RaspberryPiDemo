@@ -12,6 +12,9 @@
 @property RPDViewControllerAuto* vcAuto;
 @property int curStatus;
 @property int imgIndex;
+@property UIImageView* img1;
+@property UIImageView* img2;
+@property NSTimer* timer;
 @end
 
 
@@ -86,11 +89,13 @@
 - (void) statisInitEntry
 {
     // 画面を初期化。(1枚目を表示。2枚目をクリア)
+    [self clearImageViews];
     [self addIndex];
     [self loadFirstImageView];
 
-    // タイマーを発行。一定時間後にEVENT_NEXTを発行
     
+    // タイマーを発行。一定時間後にEVENT_NEXTを発行
+    [self makeAndStartTimerForEventNext];
 }
 
 - (void) statusInit:(int)event
@@ -113,6 +118,7 @@
     // グルグルを表示
     
     // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
+    [self dispatchEvent:EVENT_NEXT];
 }
 - (void) statusDistributionCalc:(int)event
 {
@@ -131,8 +137,10 @@
 - (void) statusFinishedEntry
 {
     // 分散処理結果を使って画面を更新
+    [self loadSecondImageView];
     
     // タイマーを発行。一定時間後にEVENT_NEXTを発行
+    [self makeAndStartTimerForEventNext];
 }
 - (void) statusFinished:(int)event
 {
@@ -142,6 +150,7 @@
             break;
         case EVENT_INIT:
             // TODO: 状態をINITに変える。必要ならタイマーの終了処理を
+            [self clearTimer];
             _curStatus = STATUS_INIT;
             break;
     }
@@ -150,8 +159,38 @@
 
 
 ////// 内部メソッド
+- (NSTimer*) makeAndStartTimerForEventNext
+{
+    NSTimer *timer = [NSTimer
+                      // タイマーイベントを発生させる感覚。「1.5」は 1.5秒 型は float
+                      scheduledTimerWithTimeInterval:3.0
+                      // 呼び出すメソッドの呼び出し先(selector) self はこのファイル(.m)
+                      target:self
+                      // 呼び出すメソッド名。「:」で自分自身(タイマーインスタンス)を渡す。
+                      // インスタンスを渡さない場合は、「timerInfo」
+                      selector:@selector(timerInfoEventNext:)
+                      // 呼び出すメソッド内で利用するデータが存在する場合は設定する。ない場合は「nil」
+                      userInfo:nil
+                      // 上記で設定した秒ごとにメソッドを呼び出す場合は、「YES」呼び出さない場合は「NO」
+                      repeats:NO
+                      ];
+    _timer = timer;
+    return timer;
+}
 
-///  内部メソッド
+-(void) timerInfoEventNext:(NSTimer *)timer
+{
+    [self dispatchEvent:EVENT_NEXT];
+}
+
+-(void) clearTimer
+{
+    if (_timer){
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
+
 - (void)addIndex
 {
     ++_imgIndex;
@@ -169,6 +208,16 @@
     return imgview1;
 }
 
+- (void)clearImageViews
+{
+    if (_img1!=NULL){
+        [_img1 removeFromSuperview];
+    }
+    if (_img2!=NULL){
+        [_img2 removeFromSuperview];
+    }
+}
+
 - (void)loadFirstImageView
 {
     // 画面の上半分に配置
@@ -179,6 +228,7 @@
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview1.frame = CGRectMake(0, 0, frameSize.width, frameSize.height/2);
         [_vcAuto.view addSubview:imgview1];
+        _img1 = imgview1;
     }
     
 }
@@ -191,6 +241,7 @@
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview2.frame = CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2);
         [_vcAuto.view addSubview:imgview2];
+        _img2 = imgview2;
     }
 }
 
