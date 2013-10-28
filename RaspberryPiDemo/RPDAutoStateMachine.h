@@ -23,6 +23,7 @@ enum {
 enum {
     EVENT_NEXT, //次の状態への遷移促す
     EVENT_INIT, //初期化状態へ戻れ命令
+    EVENT_BUTTON, //ボタン押下
 };
 
 - (id) initWith:(RPDViewControllerAuto*)vcAuto;

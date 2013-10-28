@@ -33,4 +33,6 @@ typedef void(^FailedHandler)(NSError *error);
 
 - (void)startRequest;
 
+- (void)cancelRequest;// add : masuda
+
 @end

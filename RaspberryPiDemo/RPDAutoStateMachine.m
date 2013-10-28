@@ -10,9 +10,13 @@
 #import "MBProgressHUD.h"
 #import "R9HTTPRequest.h"
 
-#define TIMER_INTERVAL (0.5f)
+#define TIMER_INTERVAL (3.0f)
 #define HEADER_HEIGHT (60)
 #define TABBAR_HEIGHT (60)
+#define NUM_OF_SAMPLE_IMAGES @"500" // モザイク画作成につかうサンプル数。多いほど精度良くなる
+#define SRC_LONG_SIZE @"128" // 画像をダウンスケールしたときの長編の画素数。多いほど細かい画像になる
+
+
 
 @interface RPDAutoStateMachine ()
 @property RPDViewControllerAuto* vcAuto;
@@ -25,6 +29,8 @@
 @property MBProgressHUD* hud;
 @property BOOL isCanceledMosaicImageCreation;
 @property NSMutableArray *imgSamples;
+@property UIButton *btn;
+@property R9HTTPRequest *request;
 @end
 
 
@@ -97,6 +103,10 @@
         case EVENT_INIT:
             _curStatus = EVENT_INIT;
             break;
+        case EVENT_BUTTON:
+            [self setButtonCancel];
+            _curStatus = EVENT_INIT;
+            break;
     }
 }
 
@@ -124,6 +134,11 @@
         case EVENT_INIT:
             // TODO: 何もしなくて良いと思われる
             break;
+        case EVENT_BUTTON:
+            [self clearTimer];
+            [self setButtonStart];
+            _curStatus = STATUS_UNKNOWN;
+            break;
     }
 }
 
@@ -134,7 +149,7 @@
     // グルグルを表示
     [self makeAndShowIndicator];
 
-    if (false){
+    if (true){
         // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
         [self createMosaicImage];
     }else{
@@ -155,6 +170,12 @@
             [self clearIndicator];
             [self cancelMosaicImageCreation];
             _curStatus = STATUS_INIT;
+            break;
+        case EVENT_BUTTON:
+            [self clearIndicator];
+            [self cancelMosaicImageCreation];
+            [self setButtonStart];
+            _curStatus = STATUS_UNKNOWN;
             break;
     }
 }
@@ -177,6 +198,11 @@
         case EVENT_INIT:
             [self clearTimer];
             _curStatus = STATUS_INIT;
+            break;
+        case EVENT_BUTTON:
+            [self clearTimer];
+            [self setButtonStart];
+            _curStatus = STATUS_UNKNOWN;
             break;
     }
 }
@@ -280,10 +306,12 @@
     }
     // ボタンを追加
     UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [btn setTitle:@"キャンセル" forState:UIControlStateNormal];
+    _btn = btn;
+    [self setButtonCancel];
+//    [btn setTitle:@"キャンセル" forState:UIControlStateNormal];
     btn.frame = CGRectMake(0,HEADER_HEIGHT/4,120,30);
     [btn addTarget:self action:@selector(buttonDidPush) forControlEvents:UIControlEventTouchUpInside];
-    
+
 //    [_imgv1 addSubview:btn];
     [_vcAuto.view addSubview:btn];
 }
@@ -291,8 +319,19 @@
 -(void)buttonDidPush
 {
     NSLog(@"Cancel pushed.");
-    
+    [self dispatchEvent:EVENT_BUTTON];
 }
+
+- (void)setButtonCancel
+{
+    [_btn setTitle:@"キャンセル" forState:UIControlStateNormal];
+}
+
+- (void)setButtonStart
+{
+    [_btn setTitle:@"開始" forState:UIControlStateNormal];
+}
+
 
 - (void)loadSecondImageView
 {
@@ -336,18 +375,18 @@
     R9HTTPRequest *request = [[R9HTTPRequest alloc] initWithURL:URL];
     [request setHTTPMethod:@"POST"];
     // パラメータ追加
-    NSString* txtNumOfSampleImages = @"100";
+    NSString* txtNumOfSampleImages = NUM_OF_SAMPLE_IMAGES;
     [request addBody:txtNumOfSampleImages forKey:@"numOfSampleImages"];
-    NSString* txtSrcLongSize = @"32";
+    NSString* txtSrcLongSize = SRC_LONG_SIZE;
     [request addBody:txtSrcLongSize forKey:@"srcLongSize"];
     [request addBody:@"192.168.1.2" forKey:@"workers"];
 //    [request addBody:@"192.168.43.215" forKey:@"workers"];
     NSData *pngData = [[NSData alloc] initWithData:UIImagePNGRepresentation(originalImage)];
     // set image data
     [request setData:pngData withFileName:@"sample.png" andContentType:@"image/png" forKey:@"fileUpload"];
-    [request setCompletionHandler:^(NSHTTPURLResponse *responseHeader, NSString *responseString){
-        NSLog(@"%@", responseString);
-    }];
+//    [request setCompletionHandler:^(NSHTTPURLResponse *responseHeader, NSString *responseString){
+//        NSLog(@"%@", responseString);
+//    }];
     // Progress
     [request setUploadProgressHandler:^(float newProgress){
         NSLog(@"%g", newProgress);
@@ -363,6 +402,7 @@
             _img2 = im;
             [self dispatchEvent:EVENT_NEXT];
         }else{
+            _img2 = nil;
             NSLog(@"responseWithData but canceled.");
         }
     }];
@@ -380,7 +420,7 @@
     }];
     
     [request startRequest];
-    
+    _request = request;
 }
 
 - (void)cancelMosaicImageCreation
@@ -389,6 +429,7 @@
     // とりあえずフラグを立てておく
     // 通信受取メソッドで、キャンセルフラグ立っていたら以降の処理をしないことでキャンセル処理を実現
     _isCanceledMosaicImageCreation = true;
+    [_request cancelRequest];
 }
 
 @end

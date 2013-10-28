@@ -29,6 +29,7 @@ static NSString *kBoundary = @"----------0xKhTmLbOuNdArY";
     NSOperationQueue *_queue;
     NSMutableDictionary *_headers, *_bodies, *_fileInfo;
     BOOL _isExecuting, _isFinished;
+    NSURLConnection *_conn;
 }
 
 + (BOOL)automaticallyNotifiesObserversForKey:(NSString*)key
@@ -103,8 +104,21 @@ static NSString *kBoundary = @"----------0xKhTmLbOuNdArY";
     [_queue addOperation:self];
 }
 
+
+// add : masuda
+- (void)cancelRequest
+{
+    if (_conn != nil){
+        [_conn cancel];
+        _conn = nil;
+    }
+    [_queue cancelAllOperations];
+}
+
+
 - (void)start
 {
+    _conn = nil; // add : masuda
     [self setValue:@(YES) forKey:@"isExecuting"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_url];
     if ([self.headers count] > 0) {
@@ -121,6 +135,7 @@ static NSString *kBoundary = @"----------0xKhTmLbOuNdArY";
     [request setTimeoutInterval:_timeoutSeconds];
     NSURLConnection *conn = [NSURLConnection connectionWithRequest:request delegate:self];
     if (conn != nil) {
+        _conn = conn; //add : masuda
         do {
             [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
         } while (_isExecuting);
