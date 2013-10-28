@@ -52,13 +52,13 @@
     [super viewDidLoad];
     
     // ボタンを追加
-    const int BUTTON_WIDTH = 140;
-    const int PLAY_WIDTH = 10;
+//    const int BUTTON_WIDTH = 140;
+//    const int PLAY_WIDTH = 10;
     {
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
         _btnSend = btn;
         [_btnSend setTitle:@"送信" forState:UIControlStateNormal];
-        _btnSend.frame = CGRectMake(0,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        _btnSend.frame = CGRectMake(0,HEADER_HEIGHT/4,BUTTON_WIDTH,BUTTON_HEIGHT);
         [btn addTarget:self action:@selector(sendButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         //    [_imgv1 addSubview:btn];
         [self.view addSubview:btn];
@@ -67,7 +67,7 @@
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
         _btnCamera = btn;
         [_btnCamera setTitle:@"カメラ" forState:UIControlStateNormal];
-        _btnCamera.frame = CGRectMake(BUTTON_WIDTH + PLAY_WIDTH,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        _btnCamera.frame = CGRectMake(BUTTON_WIDTH + PLAY_WIDTH,HEADER_HEIGHT/4,BUTTON_WIDTH,BUTTON_HEIGHT);
         [btn addTarget:self action:@selector(cameraButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         //    [_imgv1 addSubview:btn];
         [self.view addSubview:btn];
@@ -75,7 +75,7 @@
     {
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
         [btn setTitle:@"ビューワーで見る" forState:UIControlStateNormal];
-        btn.frame = CGRectMake((BUTTON_WIDTH+PLAY_WIDTH)*2,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        btn.frame = CGRectMake((BUTTON_WIDTH+PLAY_WIDTH)*2,HEADER_HEIGHT/4,BUTTON_WIDTH,BUTTON_HEIGHT);
         [btn addTarget:self action:@selector(showViewerButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
     }
@@ -128,7 +128,7 @@
 -(void)showViewerButtonDidPush
 {
     // 画像ビューワー表示ボタン押下
-    [self showMemoView];
+    [self showModalView];
 }
 
 
@@ -339,7 +339,7 @@
 }
 
 // モーダルビューを表示
--(void)showMemoView{
+-(void)showModalView{
 //    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] init];
     if (_img2 != nil){
         RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img2];

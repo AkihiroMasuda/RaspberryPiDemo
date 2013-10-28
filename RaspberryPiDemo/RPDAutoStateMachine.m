@@ -9,6 +9,7 @@
 #import "RPDAutoStateMachine.h"
 #import "MBProgressHUD.h"
 #import "R9HTTPRequest.h"
+#import "RPDViewControllerImageViewer.h"
 
 #import "RPDDefine.h"
 
@@ -19,12 +20,14 @@
 @property int imgIndex;
 @property UIImageView* imgv1;
 @property UIImageView* imgv2;
+@property UIImage* img1;
 @property UIImage* img2;
 @property NSTimer* timer;
 @property MBProgressHUD* hud;
 @property BOOL isCanceledMosaicImageCreation;
 @property NSMutableArray *imgSamples;
-@property UIButton *btn;
+@property UIButton *btnPlayStop;
+@property UIButton *btnImageViewer;
 @property R9HTTPRequest *request;
 @end
 
@@ -61,7 +64,7 @@
     // 今の状態に対する処理
     switch(_curStatus) {
         case STATUS_STOP:
-            [self statusUnknown:event];
+            [self statusStop:event];
             break;
         case STATUS_INIT:
             [self statusInit:event];
@@ -76,8 +79,11 @@
     // 状態が変更されたときの処理
     if (oldStatus != _curStatus){
         switch(_curStatus) {
+            case STATUS_STOP:
+                [self statusStopEntry];
+                break;
             case STATUS_INIT:
-                [self statisInitEntry];
+                [self statusInitEntry];
                 break;
             case STATUS_DIST:
                 [self statusDistributionCalcEntry];
@@ -90,11 +96,12 @@
 }
 
 ///// 未初期化状態
-- (void) statisUnknownEntry
+- (void) statusStopEntry
 {
+    _btnImageViewer.enabled = YES;
 }
 
-- (void) statusUnknown:(int)event
+- (void) statusStop:(int)event
 {
     switch (event) {
         case EVENT_NEXT:
@@ -113,15 +120,16 @@
 
 
 ///// 初期状態
-- (void) statisInitEntry
+- (void) statusInitEntry
 {
     // 画面を初期化。(1枚目を表示。2枚目をクリア)
+    _img1 = nil;
     _img2 = nil;
     [self clearImageViews];
     [self addIndex];
     [self loadFirstImageView];
-
-    
+//    [_btnImageViewer setEnabled:false];
+    _btnImageViewer.enabled = NO;
     // タイマーを発行。一定時間後にEVENT_NEXTを発行
     [self makeAndStartTimerForEventNext];
 }
@@ -306,18 +314,26 @@
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview1.frame = CGRectMake(0, HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2);
         [_vcAuto.view addSubview:imgview1];
+        _img1 = imgview1.image;
         _imgv1 = imgview1;
     }
     // ボタンを追加
-    UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _btn = btn;
-    [self setButtonCancel];
-//    [btn setTitle:@"キャンセル" forState:UIControlStateNormal];
-    btn.frame = CGRectMake(0,HEADER_HEIGHT/4,120,30);
-    [btn addTarget:self action:@selector(buttonDidPush) forControlEvents:UIControlEventTouchUpInside];
-
-//    [_imgv1 addSubview:btn];
-    [_vcAuto.view addSubview:btn];
+    {
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _btnPlayStop = btn;
+        [self setButtonCancel];
+        btn.frame = CGRectMake(0,HEADER_HEIGHT/4,BUTTON_WIDTH,BUTTON_HEIGHT);
+        [btn addTarget:self action:@selector(buttonDidPush) forControlEvents:UIControlEventTouchUpInside];
+        [_vcAuto.view addSubview:btn];
+    }
+    {
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _btnImageViewer = btn;
+        [btn setTitle:@"ビューワーで見る" forState:UIControlStateNormal];
+        btn.frame = CGRectMake(BUTTON_WIDTH+PLAY_WIDTH,HEADER_HEIGHT/4,BUTTON_WIDTH,BUTTON_HEIGHT);
+        [btn addTarget:self action:@selector(showViewerButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
+        [_vcAuto.view addSubview:btn];
+    }
 }
 
 -(void)buttonDidPush
@@ -326,14 +342,36 @@
     [self dispatchEvent:EVENT_BUTTON];
 }
 
+-(void)showViewerButtonDidPush
+{
+    // ビュー表示のボタン押下
+    if (_btnImageViewer.enabled==YES){ //なぜかわからんが、NOにしていても押せてしまったので。。
+        [self showModalView];
+    }
+}
+
 - (void)setButtonCancel
 {
-    [_btn setTitle:@"キャンセル" forState:UIControlStateNormal];
+    [_btnPlayStop setTitle:@"停止" forState:UIControlStateNormal];
 }
 
 - (void)setButtonStart
 {
-    [_btn setTitle:@"開始" forState:UIControlStateNormal];
+    [_btnPlayStop setTitle:@"開始" forState:UIControlStateNormal];
+}
+
+// モーダルビューを表示
+-(void)showModalView{
+    //    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] init];
+    if (_img2 != nil){
+        RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img2];
+        [_vcAuto presentViewController:vcImageViewer animated:YES completion:nil];
+    }else if (_img1 != nil){
+        RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img1];
+        [_vcAuto presentViewController:vcImageViewer animated:YES completion:nil];
+    }else{
+        
+    }
 }
 
 

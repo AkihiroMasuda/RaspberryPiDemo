@@ -55,12 +55,12 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     
-    const int BUTTON_WIDTH = 120;
+//    const int BUTTON_WIDTH = 120;
     {
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
         _btnClose = btn;
         [_btnClose setTitle:@"閉じる" forState:UIControlStateNormal];
-        _btnClose.frame = CGRectMake(0,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        _btnClose.frame = CGRectMake(0,HEADER_HEIGHT/4,BUTTON_WIDTH,BUTTON_HEIGHT);
         [btn addTarget:self action:@selector(closeButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         //    [_imgv1 addSubview:btn];
         [self.view addSubview:btn];

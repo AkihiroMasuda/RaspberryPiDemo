@@ -20,4 +20,9 @@
 #define IMAGE_VIEW_MIN_SCALE (0.02f)
 #define IMAGE_VIEW_MAX_SCALE (10.f)
 
+#define BUTTON_WIDTH (140)
+#define BUTTON_HEIGHT (30)
+#define PLAY_WIDTH (10)
+
+
 #endif
