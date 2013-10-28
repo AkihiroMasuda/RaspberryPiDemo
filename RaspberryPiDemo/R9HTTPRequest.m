@@ -113,6 +113,7 @@ static NSString *kBoundary = @"----------0xKhTmLbOuNdArY";
         _conn = nil;
     }
     [_queue cancelAllOperations];
+    _queue = nil;
 }
 
 

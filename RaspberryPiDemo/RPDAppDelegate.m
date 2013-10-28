@@ -35,8 +35,8 @@
     _vcAuto = [[RPDViewControllerAuto alloc] init];
     _vcSetting = [[RPDViewControllerSetting alloc] init];
 
-    [viewControllers addObject:_vcAuto];
     [viewControllers addObject:_vcCamera];
+    [viewControllers addObject:_vcAuto];
     [viewControllers addObject:_vcSetting];
     
     // create the tab controller and add the view controllers
@@ -46,10 +46,10 @@
     _curVC = [viewControllers objectAtIndex:0];
     
     // タブバーのアイコン・文言設定
-    UITabBarItem *item = [tabController.tabBar.items objectAtIndex:1];
+    UITabBarItem *item = [tabController.tabBar.items objectAtIndex:0];
     item.title = @"カメラ";
     item.image = [UIImage imageNamed:@"image_32.png"];
-    item = [tabController.tabBar.items objectAtIndex:0];
+    item = [tabController.tabBar.items objectAtIndex:1];
     item.title = @"オート";
     item.image = [UIImage imageNamed:@"refresh_32.png"];
     item = [tabController.tabBar.items objectAtIndex:2];

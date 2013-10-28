@@ -10,12 +10,7 @@
 #import "MBProgressHUD.h"
 #import "R9HTTPRequest.h"
 
-#define TIMER_INTERVAL (3.0f)
-#define HEADER_HEIGHT (60)
-#define TABBAR_HEIGHT (60)
-#define NUM_OF_SAMPLE_IMAGES @"500" // モザイク画作成につかうサンプル数。多いほど精度良くなる
-#define SRC_LONG_SIZE @"128" // 画像をダウンスケールしたときの長編の画素数。多いほど細かい画像になる
-
+#import "RPDDefine.h"
 
 
 @interface RPDAutoStateMachine ()
@@ -388,9 +383,9 @@
 //        NSLog(@"%@", responseString);
 //    }];
     // Progress
-    [request setUploadProgressHandler:^(float newProgress){
-        NSLog(@"%g", newProgress);
-    }];
+//    [request setUploadProgressHandler:^(float newProgress){
+//        NSLog(@"%g", newProgress);
+//    }];
     // Response
     [request setCompletionHandler:nil]; // setCompletionHandlerWithData をセットするなら、先にsetCompletionHandler にnilをセットする必要あり。多分、バグ。
     [request setCompletionHandlerWithData:^(NSHTTPURLResponse *responseHeader, NSData *responseData){
@@ -430,6 +425,7 @@
     // 通信受取メソッドで、キャンセルフラグ立っていたら以降の処理をしないことでキャンセル処理を実現
     _isCanceledMosaicImageCreation = true;
     [_request cancelRequest];
+    _request = nil;
 }
 
 @end
