@@ -78,25 +78,16 @@
     [scrollView addSubview:_imgv];
     
     scrollView.contentSize = _imgv.bounds.size;
-    CGSize s = _imgv.bounds.size;
-    CGRect r = scrollView.frame;
     
     [self.view addSubview:scrollView];
     
     scrollView.delegate = self;
-    scrollView.minimumZoomScale = 0.5;
-    scrollView.maximumZoomScale = 10.0;
+    scrollView.minimumZoomScale = IMAGE_VIEW_MIN_SCALE;
+    scrollView.maximumZoomScale = IMAGE_VIEW_MAX_SCALE;
     _scView = scrollView;
     
     [self updateImageCenter];
-//    [self setImageView];
     
-    
-    // ピンチ
-//    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc]
-//                                              initWithTarget:self action:@selector(handlePinchGesture:)];
-////    [self.view addGestureRecognizer:pinchGesture];
-//    [_imgv addGestureRecognizer:pinchGesture];
 }
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -141,16 +132,7 @@
     
 }
 
-// セレクター
-- (void)handlePinchGesture:(UIPinchGestureRecognizer *)sender
-{
-    CGFloat factor = [(UIPinchGestureRecognizer *)sender scale];
-    self.view.transform = CGAffineTransformMakeScale(factor, factor);
-    
-    NSLog(@"factor %f",factor);
-    
-}
-
+// ScrollViewDelegater
 - (void)scrollViewDidZoom:(UIScrollView*)scrollView
 {
     // Update appearance

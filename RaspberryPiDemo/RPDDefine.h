@@ -17,4 +17,7 @@
 #define REQUEST_URL @"http://192.168.1.2:8080/posttest" //サーバへのリクエストURL
 #define WORKERS_IP @"192.168.1.2" //分散処理サーバのIP
 
+#define IMAGE_VIEW_MIN_SCALE (0.02f)
+#define IMAGE_VIEW_MAX_SCALE (10.f)
+
 #endif

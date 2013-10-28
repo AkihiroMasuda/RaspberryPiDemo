@@ -186,6 +186,8 @@
     UIImage* originalImage = (UIImage*)[info objectForKey:UIImagePickerControllerOriginalImage];
     UIImage* editedImage = (UIImage*)[info objectForKey:UIImagePickerControllerEditedImage];
     
+    [self resetImages];
+    
 //    _img1 = originalImage;
     _img1 = editedImage;
     
@@ -325,12 +327,29 @@
     }
 }
 
+- (void) resetImages
+{
+    if (_imgv1!=nil) [_imgv1 removeFromSuperview];
+    if (_imgv2!=nil) [_imgv2 removeFromSuperview];
+    _imgv1 = nil;
+    _imgv2 = nil;
+    _img1 = nil;
+    _img2 = nil;
+    
+}
+
 // モーダルビューを表示
 -(void)showMemoView{
 //    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] init];
-//    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img2];
-    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img1];
-    [self presentViewController:vcImageViewer animated:YES completion:nil];
+    if (_img2 != nil){
+        RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img2];
+        [self presentViewController:vcImageViewer animated:YES completion:nil];
+    }else if (_img1 != nil){
+        RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img1];
+        [self presentViewController:vcImageViewer animated:YES completion:nil];
+    }else{
+        
+    }
 }
 
 
