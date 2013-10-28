@@ -13,7 +13,8 @@
 
 
 @interface RPDViewControllerCamera ()
-@property UIButton *btn;
+@property UIButton *btnSend;
+@property UIButton *btnCamera;
 @property BOOL isUsePopOver;
 @property UIPopoverController* imagePopController;
 @property UIImage *img1;
@@ -51,17 +52,27 @@
     [super viewDidLoad];
     
     // ボタンを追加
-    UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _btn = btn;
-    [_btn setTitle:@"送信" forState:UIControlStateNormal];
-    _btn.frame = CGRectMake(0,HEADER_HEIGHT/4,120,30);
-    [btn addTarget:self action:@selector(buttonDidPush) forControlEvents:UIControlEventTouchUpInside];
-    //    [_imgv1 addSubview:btn];
-    [self.view addSubview:btn];
+    const int BUTTON_WIDTH = 120;
+    {
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _btnSend = btn;
+        [_btnSend setTitle:@"送信" forState:UIControlStateNormal];
+        _btnSend.frame = CGRectMake(0,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        [btn addTarget:self action:@selector(sendButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
+        //    [_imgv1 addSubview:btn];
+        [self.view addSubview:btn];
+    }
+    {
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        _btnCamera = btn;
+        [_btnCamera setTitle:@"カメラ" forState:UIControlStateNormal];
+        _btnCamera.frame = CGRectMake(BUTTON_WIDTH + 20,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        [btn addTarget:self action:@selector(cameraButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
+        //    [_imgv1 addSubview:btn];
+        [self.view addSubview:btn];
+    }
     _img1 = nil;
     
-    // カメラ画面起動
-    [self callCameraView];
 }
 
 - (UIImageView *)createImageViewWithName:(NSString*)name
@@ -92,16 +103,22 @@
     //
 }
 
--(void)buttonDidPush
+-(void)sendButtonDidPush
 {
     // 送信ボタン押下
     [self makeAndShowIndicator]; //くるくる表示
     [self createMosaicImage]; //モザイク画作成のためSサーバへ送信
 }
 
+-(void)cameraButtonDidPush
+{
+    // カメラボタン押下
+    [self callCameraView];
+}
+
 - (void) callCameraView
 {
-    id sender = _btn;
+    id sender = _btnSend;
     UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypeCamera;  //カメラ使用
     //    UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypePhotoLibrary; //ライブラリから取得
     
