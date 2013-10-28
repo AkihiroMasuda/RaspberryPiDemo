@@ -33,6 +33,7 @@
 		C3BE9BA2181E52B700EC196D /* 03.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9C181E52B700EC196D /* 03.jpeg */; };
 		C3BE9BA3181E52B700EC196D /* 04.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9D181E52B700EC196D /* 04.jpeg */; };
 		C3BE9BA4181E52B700EC196D /* 05.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B9E181E52B700EC196D /* 05.jpeg */; };
+		C3BE9BAE181E8BE000EC196D /* RPDViewControllerImageViewer.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9BAD181E8BE000EC196D /* RPDViewControllerImageViewer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		C3BE9B9D181E52B700EC196D /* 04.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 04.jpeg; path = Resources/04.jpeg; sourceTree = "<group>"; };
 		C3BE9B9E181E52B700EC196D /* 05.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 05.jpeg; path = Resources/05.jpeg; sourceTree = "<group>"; };
 		C3BE9BA5181E731900EC196D /* RPDDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDDefine.h; sourceTree = "<group>"; };
+		C3BE9BAC181E8BE000EC196D /* RPDViewControllerImageViewer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerImageViewer.h; sourceTree = "<group>"; };
+		C3BE9BAD181E8BE000EC196D /* RPDViewControllerImageViewer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPDViewControllerImageViewer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 				C3BE9B90181DFBB700EC196D /* RPDAutoStateMachine.h */,
 				C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */,
 				C3BE9BA5181E731900EC196D /* RPDDefine.h */,
+				C3BE9BAC181E8BE000EC196D /* RPDViewControllerImageViewer.h */,
+				C3BE9BAD181E8BE000EC196D /* RPDViewControllerImageViewer.m */,
 			);
 			path = RaspberryPiDemo;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 				C3BE9B92181DFBB700EC196D /* RPDAutoStateMachine.m in Sources */,
 				C3BE8F4F181CD1DF00EC196D /* RPDAppDelegate.m in Sources */,
 				C3BE8F75181CE09100EC196D /* RPDViewControllerAuto.m in Sources */,
+				C3BE9BAE181E8BE000EC196D /* RPDViewControllerImageViewer.m in Sources */,
 				C3BE9B98181E2B3400EC196D /* R9HTTPRequest.m in Sources */,
 				C3BE9B95181E101D00EC196D /* MBProgressHUD.m in Sources */,
 			);

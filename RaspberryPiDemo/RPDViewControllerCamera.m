@@ -9,8 +9,8 @@
 #import "RPDViewControllerCamera.h"
 #import "R9HTTPRequest.h"
 #import "MBProgressHUD.h"
+#import "RPDViewControllerImageViewer.h"
 #import "RPDDefine.h"
-
 
 @interface RPDViewControllerCamera ()
 @property UIButton *btnSend;
@@ -52,7 +52,8 @@
     [super viewDidLoad];
     
     // ボタンを追加
-    const int BUTTON_WIDTH = 120;
+    const int BUTTON_WIDTH = 140;
+    const int PLAY_WIDTH = 10;
     {
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
         _btnSend = btn;
@@ -66,9 +67,16 @@
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
         _btnCamera = btn;
         [_btnCamera setTitle:@"カメラ" forState:UIControlStateNormal];
-        _btnCamera.frame = CGRectMake(BUTTON_WIDTH + 20,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        _btnCamera.frame = CGRectMake(BUTTON_WIDTH + PLAY_WIDTH,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
         [btn addTarget:self action:@selector(cameraButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         //    [_imgv1 addSubview:btn];
+        [self.view addSubview:btn];
+    }
+    {
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [btn setTitle:@"ビューワーで見る" forState:UIControlStateNormal];
+        btn.frame = CGRectMake((BUTTON_WIDTH+PLAY_WIDTH)*2,HEADER_HEIGHT/4,BUTTON_WIDTH,30);
+        [btn addTarget:self action:@selector(showViewerButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
     }
     _img1 = nil;
@@ -115,6 +123,13 @@
     // カメラボタン押下
     [self callCameraView];
 }
+
+-(void)showViewerButtonDidPush
+{
+    // 画像ビューワー表示ボタン押下
+    [self showMemoView];
+}
+
 
 - (void) callCameraView
 {
@@ -307,6 +322,12 @@
         [_hud hide:true];
         _hud = nil;
     }
+}
+
+// モーダルビューを表示
+-(void)showMemoView{
+    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] init];
+    [self presentViewController:vcImageViewer animated:YES completion:nil];
 }
 
 
