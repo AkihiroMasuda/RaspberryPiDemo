@@ -10,5 +10,5 @@
 #import "RPDViewControllerBase.h"
 
 @interface RPDViewControllerAuto : UIViewController <RPDTabBarChildProtocol>
-
+@property NSMutableArray *imgSamples;
 @end
