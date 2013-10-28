@@ -73,13 +73,23 @@
 // implement protcol
 - (void)tabBarDidSelect
 {
+    [self callCameraView];
     
 }
+- (void)tabBarDidReleased
+{
+    //
+}
+
 
 -(void)buttonDidPush
 {
     NSLog(@"Cancel pushed.");
     
+}
+
+- (void) callCameraView
+{
     id sender = _btn;
     UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypeCamera;  //カメラ使用
     //    UIImagePickerControllerSourceType type = UIImagePickerControllerSourceTypePhotoLibrary; //ライブラリから取得
@@ -109,8 +119,8 @@
                 // Popoverを表示する。
                 // senderはBarButtonItem型の変数で、このボタンを起点にPopoverを開く。
                 [_imagePopController presentPopoverFromBarButtonItem:sender
-                                           permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                           animated:YES];
+                                            permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                            animated:YES];
                 _isUsePopOver = true;
             }
         }else{
@@ -122,7 +132,6 @@
         }
         
     }
-    
     
 }
 

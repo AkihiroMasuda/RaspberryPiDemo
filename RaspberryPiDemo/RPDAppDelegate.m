@@ -95,12 +95,24 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
     UIViewController *oldVC = _curVC;
     _curVC = viewController;
-    id obj = viewController;
-    if( [obj conformsToProtocol:@protocol(RPDTabBarChildProtocol)] )
     {
-        //対応している時の処理
-        [obj tabBarDidSelect];
+        id obj = oldVC;
+        if( [obj conformsToProtocol:@protocol(RPDTabBarChildProtocol)] )
+        {
+            //対応している時の処理
+            [obj tabBarDidReleased];
+        }
     }
+    {
+        id obj = viewController;
+        if( [obj conformsToProtocol:@protocol(RPDTabBarChildProtocol)] )
+        {
+            //対応している時の処理
+            [obj tabBarDidSelect];
+        }
+    }
+    
+    
 //    if ([viewController isKindOfClass:[UINavigationController class]]) {
 //        UINavigationController *navigationController = (UINavigationController *)viewController;
 //        [navigationController popToRootViewControllerAnimated:NO];

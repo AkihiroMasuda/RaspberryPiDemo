@@ -83,6 +83,7 @@
 		C3BE9B9C181E52B700EC196D /* 03.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 03.jpeg; path = Resources/03.jpeg; sourceTree = "<group>"; };
 		C3BE9B9D181E52B700EC196D /* 04.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 04.jpeg; path = Resources/04.jpeg; sourceTree = "<group>"; };
 		C3BE9B9E181E52B700EC196D /* 05.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = 05.jpeg; path = Resources/05.jpeg; sourceTree = "<group>"; };
+		C3BE9BA5181E731900EC196D /* RPDDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDDefine.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +160,7 @@
 				C3BE9B8D181D474D00EC196D /* RPDViewControllerBase.h */,
 				C3BE9B90181DFBB700EC196D /* RPDAutoStateMachine.h */,
 				C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */,
+				C3BE9BA5181E731900EC196D /* RPDDefine.h */,
 			);
 			path = RaspberryPiDemo;
 			sourceTree = "<group>";

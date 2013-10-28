@@ -38,7 +38,7 @@
     self = [super init];
     if (self){
         _vcAuto = vcAuto;
-        _curStatus = STATUS_UNKNOWN;
+        _curStatus = STATUS_STOP;
         _imgIndex = 0;
         _imgSamples = [NSArray arrayWithObjects:@"02.jpeg", @"03.jpeg", @"04.jpeg", @"01.jpeg", @"05.jpeg", nil];
     }
@@ -56,7 +56,7 @@
     int oldStatus = _curStatus;
     // 今の状態に対する処理
     switch(_curStatus) {
-        case STATUS_UNKNOWN:
+        case STATUS_STOP:
             [self statusUnknown:event];
             break;
         case STATUS_INIT:
@@ -102,6 +102,8 @@
             [self setButtonCancel];
             _curStatus = EVENT_INIT;
             break;
+        case EVENT_END:
+            break;
     }
 }
 
@@ -130,9 +132,10 @@
             // TODO: 何もしなくて良いと思われる
             break;
         case EVENT_BUTTON:
+        case EVENT_END:
             [self clearTimer];
             [self setButtonStart];
-            _curStatus = STATUS_UNKNOWN;
+            _curStatus = STATUS_STOP;
             break;
     }
 }
@@ -167,10 +170,11 @@
             _curStatus = STATUS_INIT;
             break;
         case EVENT_BUTTON:
+        case EVENT_END:
             [self clearIndicator];
             [self cancelMosaicImageCreation];
             [self setButtonStart];
-            _curStatus = STATUS_UNKNOWN;
+            _curStatus = STATUS_STOP;
             break;
     }
 }
@@ -195,9 +199,10 @@
             _curStatus = STATUS_INIT;
             break;
         case EVENT_BUTTON:
+        case EVENT_END:
             [self clearTimer];
             [self setButtonStart];
-            _curStatus = STATUS_UNKNOWN;
+            _curStatus = STATUS_STOP;
             break;
     }
 }

@@ -11,6 +11,7 @@
 @protocol RPDTabBarChildProtocol
 @required 
 - (void) tabBarDidSelect;
+- (void) tabBarDidReleased;
 @end
 
 

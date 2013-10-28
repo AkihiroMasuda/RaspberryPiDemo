@@ -13,7 +13,7 @@
 
 // 状態定義
 enum {
-    STATUS_UNKNOWN, //初回起動時の未初期化状態.INITに遷移するまでの暫定状態
+    STATUS_STOP, //初回起動時の未初期化状態.INITに遷移するまでの暫定状態
     STATUS_INIT,
     STATUS_DIST,
     STATUS_FIN,
@@ -24,6 +24,7 @@ enum {
     EVENT_NEXT, //次の状態への遷移促す
     EVENT_INIT, //初期化状態へ戻れ命令
     EVENT_BUTTON, //ボタン押下
+    EVENT_END, //終了命令
 };
 
 - (id) initWith:(RPDViewControllerAuto*)vcAuto;

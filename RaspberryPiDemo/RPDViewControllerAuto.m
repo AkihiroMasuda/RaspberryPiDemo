@@ -60,5 +60,10 @@
     // 初期化命令を発行
     [_stateMachine dispatchEvent:EVENT_INIT];
 }
+- (void)tabBarDidReleased
+{
+    // 
+    [_stateMachine dispatchEvent:EVENT_END];
+}
 
 @end
