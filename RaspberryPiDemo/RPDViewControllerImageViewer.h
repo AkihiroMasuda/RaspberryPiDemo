@@ -10,4 +10,7 @@
 
 @interface RPDViewControllerImageViewer : UIViewController
 
+
+- (id)initWithImage:(UIImage*)img;
+
 @end

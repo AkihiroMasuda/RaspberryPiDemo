@@ -79,8 +79,9 @@
         [btn addTarget:self action:@selector(showViewerButtonDidPush) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:btn];
     }
-    _img1 = nil;
-    
+//    _img1 = nil;
+    _img1 = [UIImage imageNamed:@"01.jpeg"];
+    [self loadFirstImageView];
 }
 
 - (UIImageView *)createImageViewWithName:(NSString*)name
@@ -326,7 +327,9 @@
 
 // モーダルビューを表示
 -(void)showMemoView{
-    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] init];
+//    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] init];
+//    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img2];
+    RPDViewControllerImageViewer *vcImageViewer = [[RPDViewControllerImageViewer alloc] initWithImage:_img1];
     [self presentViewController:vcImageViewer animated:YES completion:nil];
 }
 
