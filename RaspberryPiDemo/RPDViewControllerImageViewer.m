@@ -14,6 +14,7 @@
 @property UIButton *btnClose;
 @property UIImage *img;
 @property UIImageView *imgv;
+@property UIScrollView *scView;
 @end
 
 @implementation RPDViewControllerImageViewer
@@ -64,15 +65,48 @@
         //    [_imgv1 addSubview:btn];
         [self.view addSubview:btn];
     }
-    [self setImageView];
+    
     self.view.backgroundColor = [UIColor blackColor];
+    
+    // スクロールビュー
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    CGSize frameSize = self.view.frame.size;
+//    _imgv.frame = CGRectMake(0, HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT));
+    scrollView.frame = CGRectMake(0, HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT));
+    scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    _imgv = [self createImageViewWithImage:_img];
+    [scrollView addSubview:_imgv];
+    
+    scrollView.contentSize = _imgv.bounds.size;
+    CGSize s = _imgv.bounds.size;
+    CGRect r = scrollView.frame;
+    
+    [self.view addSubview:scrollView];
+    
+    scrollView.delegate = self;
+    scrollView.minimumZoomScale = 0.5;
+    scrollView.maximumZoomScale = 10.0;
+    _scView = scrollView;
+    
+    [self updateImageCenter];
+//    [self setImageView];
     
     
     // ピンチ
-    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc]
-                                              initWithTarget:self action:@selector(handlePinchGesture:)];
-//    [self.view addGestureRecognizer:pinchGesture];
-    [_imgv addGestureRecognizer:pinchGesture];
+//    UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc]
+//                                              initWithTarget:self action:@selector(handlePinchGesture:)];
+////    [self.view addGestureRecognizer:pinchGesture];
+//    [_imgv addGestureRecognizer:pinchGesture];
+}
+
+- (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    for (id subview in scrollView.subviews){
+        if ( [subview isKindOfClass:[UIImageView class]]){
+            return subview;
+        }
+    }
+    return nil;
 }
 
 -(void)closeButtonDidPush
@@ -91,8 +125,8 @@
 - (UIImageView *)createImageViewWithImage:(UIImage*)img
 {
     UIImageView *imgview1 = [[UIImageView alloc] initWithImage:img];
-    imgview1.contentMode = UIViewContentModeScaleAspectFill;
-    imgview1.clipsToBounds = YES;
+//    imgview1.contentMode = UIViewContentModeScaleAspectFill;
+//    imgview1.clipsToBounds = YES;
     return imgview1;
 }
 
@@ -115,6 +149,45 @@
     
     NSLog(@"factor %f",factor);
     
+}
+
+- (void)scrollViewDidZoom:(UIScrollView*)scrollView
+{
+    // Update appearance
+    [self updateImageCenter];
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView*)scrollView
+                       withView:(UIView*)view atScale:(float)scale
+{
+    [self updateImageCenter];
+}
+
+- (void)updateImageCenter
+{
+    // 画像の表示されている大きさを取得
+    UIImage*    image;
+    CGSize      imageSize;
+    image = _imgv.image;
+    imageSize = image.size;
+    imageSize.width *= _scView.zoomScale;
+    imageSize.height *= _scView.zoomScale;
+    
+    // サブスクロールビューの大きさを取得
+    CGRect  bounds;
+    bounds = _scView.bounds;
+    
+    // イメージビューの中央の座標を計算
+    CGPoint point;
+    point.x = imageSize.width * 0.5f;
+    if (imageSize.width < CGRectGetWidth(bounds)) {
+        point.x += (CGRectGetWidth(bounds) - imageSize.width) * 0.5f;
+    }
+    point.y = imageSize.height * 0.5f;
+    if (imageSize.height < CGRectGetHeight(bounds)) {
+        point.y += (CGRectGetHeight(bounds) - imageSize.height) * 0.5f;
+    }
+    _imgv.center = point;
 }
 
 @end

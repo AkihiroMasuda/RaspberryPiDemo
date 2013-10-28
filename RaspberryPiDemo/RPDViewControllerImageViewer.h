@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RPDViewControllerImageViewer : UIViewController
+@interface RPDViewControllerImageViewer : UIViewController <UIScrollViewDelegate>
 
 
 - (id)initWithImage:(UIImage*)img;
