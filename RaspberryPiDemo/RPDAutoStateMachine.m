@@ -10,7 +10,7 @@
 #import "MBProgressHUD.h"
 #import "R9HTTPRequest.h"
 
-#define TIMER_INTERVAL (3.0f)
+#define TIMER_INTERVAL (0.5f)
 
 @interface RPDAutoStateMachine ()
 @property RPDViewControllerAuto* vcAuto;
@@ -22,6 +22,7 @@
 @property NSTimer* timer;
 @property MBProgressHUD* hud;
 @property BOOL isCanceledMosaicImageCreation;
+@property NSMutableArray *imgSamples;
 @end
 
 
@@ -36,6 +37,7 @@
         _vcAuto = vcAuto;
         _curStatus = STATUS_UNKNOWN;
         _imgIndex = 0;
+        _imgSamples = [NSArray arrayWithObjects:@"02.jpeg", @"03.jpeg", @"04.jpeg", nil];
     }
     return self;
 }
@@ -222,7 +224,7 @@
 - (void)addIndex
 {
     ++_imgIndex;
-    if (_imgIndex >= [_vcAuto.imgSamples count]){
+    if (_imgIndex >= [_imgSamples count]){
         _imgIndex = 0;
     }
 }
@@ -260,7 +262,7 @@
     // 画面の上半分に配置
     {
         int index = _imgIndex;
-        NSString *st =[_vcAuto.imgSamples objectAtIndex:index];
+        NSString *st =[_imgSamples objectAtIndex:index];
         UIImageView *imgview1 = [self createImageViewWithName:st];
         
         CGSize frameSize = _vcAuto.view.frame.size;
