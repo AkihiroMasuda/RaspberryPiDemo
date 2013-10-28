@@ -7,6 +7,9 @@
 //
 
 #import "RPDAutoStateMachine.h"
+#import "MBProgressHUD.h"
+
+#define TIMER_INTERVAL (3.0f)
 
 @interface RPDAutoStateMachine ()
 @property RPDViewControllerAuto* vcAuto;
@@ -15,6 +18,7 @@
 @property UIImageView* img1;
 @property UIImageView* img2;
 @property NSTimer* timer;
+@property MBProgressHUD* hud;
 @end
 
 
@@ -36,6 +40,7 @@
 // イベントディスパッチャ
 - (void) dispatchEvent:(int)event
 {
+    ///
     int oldStatus = _curStatus;
     // 今の状態に対する処理
     switch(_curStatus) {
@@ -116,18 +121,25 @@
     // 分散処理開始
     
     // グルグルを表示
+    [self makeAndShowIndicator];
     
     // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
-    [self dispatchEvent:EVENT_NEXT];
+//    [self dispatchEvent:EVENT_NEXT];
+
+    // タイマーを発行。一定時間後にEVENT_NEXTを発行
+    [self makeAndStartTimerForEventNext];
 }
 - (void) statusDistributionCalc:(int)event
 {
     switch (event) {
         case EVENT_NEXT:
+            [self clearIndicator];
             _curStatus = STATUS_FIN;
             break;
         case EVENT_INIT:
             // TODO: 状態をINITに変える。分散処理を中断する
+            [self clearIndicator];
+            [self clearTimer];
             _curStatus = STATUS_INIT;
             break;
     }
@@ -163,7 +175,7 @@
 {
     NSTimer *timer = [NSTimer
                       // タイマーイベントを発生させる感覚。「1.5」は 1.5秒 型は float
-                      scheduledTimerWithTimeInterval:3.0
+                      scheduledTimerWithTimeInterval:TIMER_INTERVAL
                       // 呼び出すメソッドの呼び出し先(selector) self はこのファイル(.m)
                       target:self
                       // 呼び出すメソッド名。「:」で自分自身(タイマーインスタンス)を渡す。
@@ -190,6 +202,50 @@
         _timer = nil;
     }
 }
+
+- (void) makeAndShowIndicator
+{
+    
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_vcAuto.view animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_img1 animated:YES];
+    hud.labelText = @"分散処理実施中";
+    _hud = hud;
+}
+
+- (void) clearIndicator
+{
+    [_hud hide:true];
+    _hud = nil;
+}
+
+- (void) makeAndShowIndicator2
+{
+    // ローディングビュー作成
+//    UIView *loadingView = [[UIView alloc] initWithFrame:self.navigationController.view.bounds];
+    UIView *loadingView = [[UIView alloc] initWithFrame:_vcAuto.view.bounds];
+    loadingView.backgroundColor = [UIColor blackColor];
+    loadingView.alpha = 0.5f;
+    
+    int w = _vcAuto.view.frame.size.width;
+    int h = _vcAuto.view.frame.size.height;
+    
+//    
+//    int w = loadingView.bounds.size.width;
+//    int h = loadingView.bounds.size.height;
+    
+    // インジケータ作成
+//    CGRect rc = CGRectMake(0, 0, 200, 200);
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+//    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:rc];
+    [indicator setCenter:CGPointMake(loadingView.bounds.size.width / 2, loadingView.bounds.size.height / 2)];
+    
+    // ビューに追加
+    [loadingView addSubview:indicator];
+//    [self.navigationController.view addSubview:loadingView];
+    [_vcAuto.view addSubview:loadingView];
+    
+    // インジケータ再生
+    [indicator startAnimating];}
 
 - (void)addIndex
 {
