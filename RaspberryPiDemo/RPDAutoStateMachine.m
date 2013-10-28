@@ -8,6 +8,7 @@
 
 #import "RPDAutoStateMachine.h"
 #import "MBProgressHUD.h"
+#import "R9HTTPRequest.h"
 
 #define TIMER_INTERVAL (3.0f)
 
@@ -15,10 +16,12 @@
 @property RPDViewControllerAuto* vcAuto;
 @property int curStatus;
 @property int imgIndex;
-@property UIImageView* img1;
-@property UIImageView* img2;
+@property UIImageView* imgv1;
+@property UIImageView* imgv2;
+@property UIImage* img2;
 @property NSTimer* timer;
 @property MBProgressHUD* hud;
+@property BOOL isCanceledMosaicImageCreation;
 @end
 
 
@@ -40,7 +43,11 @@
 // イベントディスパッチャ
 - (void) dispatchEvent:(int)event
 {
-    ///
+    /// TODO: dispatchEventの呼び出し方について再考を。
+    /// statusXXXXEntry内部でdispatchEventを発行すると、dispatchEvent内から同じメソッドを再コールすることになる。
+    /// 本来は、新たに発生したイベントの処理は、一旦前のイベントの処理が終わってからなされるべき。
+    /// つまり、一旦dispatchEventメソッドを抜けだしてから呼ばれるようにすべき。
+    /// タイマーを使うなどして、遅延処理されるような設計を。
     int oldStatus = _curStatus;
     // 今の状態に対する処理
     switch(_curStatus) {
@@ -94,6 +101,7 @@
 - (void) statisInitEntry
 {
     // 画面を初期化。(1枚目を表示。2枚目をクリア)
+    _img2 = nil;
     [self clearImageViews];
     [self addIndex];
     [self loadFirstImageView];
@@ -119,15 +127,11 @@
 - (void) statusDistributionCalcEntry
 {
     // 分散処理開始
-    
+    // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
+    [self createMosaicImage];
     // グルグルを表示
     [self makeAndShowIndicator];
-    
-    // 分散処理が終わったらEVENT_NEXT命令を発行するように仕掛ける
-//    [self dispatchEvent:EVENT_NEXT];
 
-    // タイマーを発行。一定時間後にEVENT_NEXTを発行
-    [self makeAndStartTimerForEventNext];
 }
 - (void) statusDistributionCalc:(int)event
 {
@@ -139,7 +143,7 @@
         case EVENT_INIT:
             // TODO: 状態をINITに変える。分散処理を中断する
             [self clearIndicator];
-            [self clearTimer];
+            [self cancelMosaicImageCreation];
             _curStatus = STATUS_INIT;
             break;
     }
@@ -161,7 +165,6 @@
             _curStatus = STATUS_INIT;
             break;
         case EVENT_INIT:
-            // TODO: 状態をINITに変える。必要ならタイマーの終了処理を
             [self clearTimer];
             _curStatus = STATUS_INIT;
             break;
@@ -205,9 +208,7 @@
 
 - (void) makeAndShowIndicator
 {
-    
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_vcAuto.view animated:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_img1 animated:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_imgv1 animated:YES];
     hud.labelText = @"分散処理実施中";
     _hud = hud;
 }
@@ -217,35 +218,6 @@
     [_hud hide:true];
     _hud = nil;
 }
-
-- (void) makeAndShowIndicator2
-{
-    // ローディングビュー作成
-//    UIView *loadingView = [[UIView alloc] initWithFrame:self.navigationController.view.bounds];
-    UIView *loadingView = [[UIView alloc] initWithFrame:_vcAuto.view.bounds];
-    loadingView.backgroundColor = [UIColor blackColor];
-    loadingView.alpha = 0.5f;
-    
-    int w = _vcAuto.view.frame.size.width;
-    int h = _vcAuto.view.frame.size.height;
-    
-//    
-//    int w = loadingView.bounds.size.width;
-//    int h = loadingView.bounds.size.height;
-    
-    // インジケータ作成
-//    CGRect rc = CGRectMake(0, 0, 200, 200);
-    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-//    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithFrame:rc];
-    [indicator setCenter:CGPointMake(loadingView.bounds.size.width / 2, loadingView.bounds.size.height / 2)];
-    
-    // ビューに追加
-    [loadingView addSubview:indicator];
-//    [self.navigationController.view addSubview:loadingView];
-    [_vcAuto.view addSubview:loadingView];
-    
-    // インジケータ再生
-    [indicator startAnimating];}
 
 - (void)addIndex
 {
@@ -264,13 +236,22 @@
     return imgview1;
 }
 
+- (UIImageView *)createImageViewWithImage:(UIImage*)img
+{
+    UIImageView *imgview1 = [[UIImageView alloc] initWithImage:img];
+    imgview1.contentMode = UIViewContentModeScaleAspectFill;
+    imgview1.clipsToBounds = YES;
+    return imgview1;
+}
+
+
 - (void)clearImageViews
 {
-    if (_img1!=NULL){
-        [_img1 removeFromSuperview];
+    if (_imgv1!=NULL){
+        [_imgv1 removeFromSuperview];
     }
-    if (_img2!=NULL){
-        [_img2 removeFromSuperview];
+    if (_imgv2!=NULL){
+        [_imgv2 removeFromSuperview];
     }
 }
 
@@ -281,10 +262,11 @@
         int index = _imgIndex;
         NSString *st =[_vcAuto.imgSamples objectAtIndex:index];
         UIImageView *imgview1 = [self createImageViewWithName:st];
+        
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview1.frame = CGRectMake(0, 0, frameSize.width, frameSize.height/2);
         [_vcAuto.view addSubview:imgview1];
-        _img1 = imgview1;
+        _imgv1 = imgview1;
     }
     
 }
@@ -293,12 +275,82 @@
 {
     // 画面の下半分に配置
     {
+        UIImageView *imgview2 = [self createImageViewWithImage:_img2];
+        CGSize frameSize = _vcAuto.view.frame.size;
+        imgview2.frame = CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2);
+        [_vcAuto.view addSubview:imgview2];
+        _imgv2 = imgview2;
+    }
+}
+
+
+- (void)loadSecondImageView_tmp
+{
+    // 画面の下半分に配置
+    {
         UIImageView *imgview2 = [self createImageViewWithName:@"img1.png"];
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview2.frame = CGRectMake(0, frameSize.height/2, frameSize.width, frameSize.height/2);
         [_vcAuto.view addSubview:imgview2];
-        _img2 = imgview2;
+        _imgv2 = imgview2;
     }
+}
+
+- (void)createMosaicImage
+{
+    _isCanceledMosaicImageCreation = false;
+    
+    UIImage* originalImage = _imgv1.image;
+    
+    int w = originalImage.size.width;
+    int h = originalImage.size.height;
+    NSLog([NSString stringWithFormat:@"w:%d, h:%d", w, h]);
+    
+    // 画像をPOSTで送る
+    // (テスト用のサーバにモザイク画作成サーバを使用）
+//    NSURL *URL = [NSURL URLWithString:@"http://192.168.1.3:8080/posttest"];
+    NSURL *URL = [NSURL URLWithString:@"http://192.168.43.215:8080/posttest"];
+    R9HTTPRequest *request = [[R9HTTPRequest alloc] initWithURL:URL];
+    [request setHTTPMethod:@"POST"];
+    // パラメータ追加
+    NSString* txtNumOfSampleImages = @"100";
+    [request addBody:txtNumOfSampleImages forKey:@"numOfSampleImages"];
+    NSString* txtSrcLongSize = @"32";
+    [request addBody:txtSrcLongSize forKey:@"srcLongSize"];
+    [request addBody:@"192.168.43.215" forKey:@"workers"];
+    NSData *pngData = [[NSData alloc] initWithData:UIImagePNGRepresentation(originalImage)];
+    // set image data
+    [request setData:pngData withFileName:@"sample.png" andContentType:@"image/png" forKey:@"fileUpload"];
+    [request setCompletionHandler:^(NSHTTPURLResponse *responseHeader, NSString *responseString){
+        NSLog(@"%@", responseString);
+    }];
+    // Progress
+    [request setUploadProgressHandler:^(float newProgress){
+        NSLog(@"%g", newProgress);
+    }];
+    // Response
+    [request setCompletionHandler:nil]; // setCompletionHandlerWithData をセットするなら、先にsetCompletionHandler にnilをセットする必要あり。多分、バグ。
+    [request setCompletionHandlerWithData:^(NSHTTPURLResponse *responseHeader, NSData *responseData){
+        // 応答が来た時の処理
+        if (!_isCanceledMosaicImageCreation){
+            NSLog(@"responseWithData ");
+            UIImage* im = [[UIImage alloc]initWithData:responseData];
+            //        _vi.image = im;
+            _img2 = im;
+            [self dispatchEvent:EVENT_NEXT];
+        }
+    }];
+    
+    [request startRequest];
+    
+}
+
+- (void)cancelMosaicImageCreation
+{
+    // 本来はここで通信キャンセルしたいが、方法が不明なので
+    // とりあえずフラグを立てておく
+    // 通信受取メソッドで、キャンセルフラグ立っていたら以降の処理をしないことでキャンセル処理を実現
+    _isCanceledMosaicImageCreation = true;
 }
 
 @end
