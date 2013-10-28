@@ -111,12 +111,6 @@
             [obj tabBarDidSelect];
         }
     }
-    
-    
-//    if ([viewController isKindOfClass:[UINavigationController class]]) {
-//        UINavigationController *navigationController = (UINavigationController *)viewController;
-//        [navigationController popToRootViewControllerAnimated:NO];
-//    }
 }
 
 @end

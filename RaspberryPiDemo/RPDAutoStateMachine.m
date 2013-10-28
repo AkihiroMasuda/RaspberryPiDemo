@@ -31,7 +31,11 @@
 
 @implementation RPDAutoStateMachine
 
-
+//// 状態マシン設計指針
+// -状態の変化は、必ず各状態のイベント処理部(statusXXXX)で行う
+//  それ以外のところで状態遷移させてはならない
+// -状態から抜けるときの処理はイベント処理部(statusXXXX)で行う
+// -状態に遷移した時の初期処理はstateXXXEntryにて行う
 
 - (id) initWith:(RPDViewControllerAuto*)vcAuto;
 {
@@ -129,7 +133,7 @@
             _curStatus = STATUS_DIST;
             break;
         case EVENT_INIT:
-            // TODO: 何もしなくて良いと思われる
+            // TODO: 何もしなくて良いと思われるが
             break;
         case EVENT_BUTTON:
         case EVENT_END:
@@ -370,7 +374,8 @@
     
     // 画像をPOSTで送る
     // (テスト用のサーバにモザイク画作成サーバを使用）
-    NSURL *URL = [NSURL URLWithString:@"http://192.168.1.2:8080/posttest"];
+//    NSURL *URL = [NSURL URLWithString:@"http://192.168.1.2:8080/posttest"];
+    NSURL *URL = [NSURL URLWithString:REQUEST_URL];
 //    NSURL *URL = [NSURL URLWithString:@"http://192.168.43.215:8080/posttest"];
     R9HTTPRequest *request = [[R9HTTPRequest alloc] initWithURL:URL];
     [request setHTTPMethod:@"POST"];
@@ -379,7 +384,8 @@
     [request addBody:txtNumOfSampleImages forKey:@"numOfSampleImages"];
     NSString* txtSrcLongSize = SRC_LONG_SIZE;
     [request addBody:txtSrcLongSize forKey:@"srcLongSize"];
-    [request addBody:@"192.168.1.2" forKey:@"workers"];
+    [request addBody:WORKERS_IP forKey:@"workers"];
+//    [request addBody:@"192.168.1.2" forKey:@"workers"];
 //    [request addBody:@"192.168.43.215" forKey:@"workers"];
     NSData *pngData = [[NSData alloc] initWithData:UIImagePNGRepresentation(originalImage)];
     // set image data

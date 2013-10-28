@@ -7,7 +7,8 @@
 //
 
 #import "RPDViewControllerCamera.h"
-
+#import "R9HTTPRequest.h"
+#import "MBProgressHUD.h"
 #import "RPDDefine.h"
 
 
@@ -17,6 +18,10 @@
 @property UIPopoverController* imagePopController;
 @property UIImage *img1;
 @property UIImageView *imgv1;
+@property UIImage *img2;
+@property UIImageView *imgv2;
+@property BOOL isCanceledMosaicImageCreation;
+@property MBProgressHUD* hud;
 @end
 
 @implementation RPDViewControllerCamera
@@ -48,11 +53,15 @@
     // ボタンを追加
     UIButton *btn =[UIButton buttonWithType:UIButtonTypeRoundedRect];
     _btn = btn;
-    [_btn setTitle:@"撮影" forState:UIControlStateNormal];
+    [_btn setTitle:@"送信" forState:UIControlStateNormal];
     _btn.frame = CGRectMake(0,HEADER_HEIGHT/4,120,30);
     [btn addTarget:self action:@selector(buttonDidPush) forControlEvents:UIControlEventTouchUpInside];
     //    [_imgv1 addSubview:btn];
     [self.view addSubview:btn];
+    _img1 = nil;
+    
+    // カメラ画面起動
+    [self callCameraView];
 }
 
 - (UIImageView *)createImageViewWithName:(NSString*)name
@@ -71,21 +80,23 @@
 }
 
 // implement protcol
+// タブバーで選択されたとき
 - (void)tabBarDidSelect
 {
+    // カメラ画面起動
     [self callCameraView];
-    
 }
+// タブバーで選択状態から抜けた時
 - (void)tabBarDidReleased
 {
     //
 }
 
-
 -(void)buttonDidPush
 {
-    NSLog(@"Cancel pushed.");
-    
+    // 送信ボタン押下
+    [self makeAndShowIndicator]; //くるくる表示
+    [self createMosaicImage]; //モザイク画作成のためSサーバへ送信
 }
 
 - (void) callCameraView
@@ -182,5 +193,104 @@
         _imgv1 = imgview1;
     }
 }
+- (void)loadSecondImageView
+{
+    // 画面の下半分に配置
+    {
+        UIImageView *imgview2 = [self createImageViewWithImage:_img2];
+        CGSize frameSize = self.view.frame.size;
+        imgview2.frame = CGRectMake(0, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2 + HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2);
+        imgview2.contentMode = UIViewContentModeScaleAspectFit; //アスペクト比を維持したまま 画像のすべてが表示されるようにリサイズ
+        imgview2.clipsToBounds = YES;
+        [self.view addSubview:imgview2];
+        _imgv2 = imgview2;
+    }
+}
+
+
+
+- (void)createMosaicImage
+{
+    _isCanceledMosaicImageCreation = false;
+    
+    UIImage* originalImage = _imgv1.image;
+    
+    int w = originalImage.size.width;
+    int h = originalImage.size.height;
+    NSLog([NSString stringWithFormat:@"w:%d, h:%d", w, h]);
+    
+    // 画像をPOSTで送る
+    // (テスト用のサーバにモザイク画作成サーバを使用）
+    NSURL *URL = [NSURL URLWithString:REQUEST_URL];
+    //    NSURL *URL = [NSURL URLWithString:@"http://192.168.43.215:8080/posttest"];
+    R9HTTPRequest *request = [[R9HTTPRequest alloc] initWithURL:URL];
+    [request setHTTPMethod:@"POST"];
+    // パラメータ追加
+    NSString* txtNumOfSampleImages = NUM_OF_SAMPLE_IMAGES;
+    [request addBody:txtNumOfSampleImages forKey:@"numOfSampleImages"];
+    NSString* txtSrcLongSize = SRC_LONG_SIZE;
+    [request addBody:txtSrcLongSize forKey:@"srcLongSize"];
+    [request addBody:WORKERS_IP forKey:@"workers"];
+    //    [request addBody:@"192.168.43.215" forKey:@"workers"];
+    NSData *pngData = [[NSData alloc] initWithData:UIImagePNGRepresentation(originalImage)];
+    // set image data
+    [request setData:pngData withFileName:@"sample.png" andContentType:@"image/png" forKey:@"fileUpload"];
+    //    [request setCompletionHandler:^(NSHTTPURLResponse *responseHeader, NSString *responseString){
+    //        NSLog(@"%@", responseString);
+    //    }];
+    // Progress
+    //    [request setUploadProgressHandler:^(float newProgress){
+    //        NSLog(@"%g", newProgress);
+    //    }];
+    // Response
+    [request setCompletionHandler:nil]; // setCompletionHandlerWithData をセットするなら、先にsetCompletionHandler にnilをセットする必要あり。多分、バグ。
+    [request setCompletionHandlerWithData:^(NSHTTPURLResponse *responseHeader, NSData *responseData){
+        // 応答が来た時の処理
+        if (!_isCanceledMosaicImageCreation){
+            NSLog(@"responseWithData ");
+            UIImage* im = [[UIImage alloc]initWithData:responseData];
+            //        _vi.image = im;
+            _img2 = im;
+            [self loadSecondImageView];
+            [self clearIndicator];
+//            [self dispatchEvent:EVENT_NEXT];
+        }else{
+            _img2 = nil;
+            NSLog(@"responseWithData but canceled.");
+        }
+    }];
+    [request setFailedHandler:^(NSError* error){
+        // 応答が来た時の処理
+        //エラー発生
+        NSString *message = [error localizedDescription];
+        NSLog(@"Request is Faild. message:%@", message);
+        [self clearIndicator];
+        if (!_isCanceledMosaicImageCreation){
+            _img2 = nil;
+//            [self dispatchEvent:EVENT_NEXT];
+        }else{
+            NSLog(@"but canceled.");
+        }
+    }];
+    
+    [request startRequest];
+//    _request = request;
+}
+
+- (void) makeAndShowIndicator
+{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:_imgv1 animated:YES];
+    hud.labelText = @"分散処理実施中";
+    _hud = hud;
+}
+
+- (void) clearIndicator
+{
+    if (_hud!=nil){
+        [_hud hide:true];
+        _hud = nil;
+    }
+}
+
 
 @end
