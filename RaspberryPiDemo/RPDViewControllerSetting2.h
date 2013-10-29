@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RPDViewControllerBase.h"
 
-@interface RPDViewControllerSetting2 : UIViewController
+@interface RPDViewControllerSetting2 : UIViewController <RPDTabBarChildProtocol>
 @property (weak, nonatomic) IBOutlet UITextField *NumOfSampleImages;
 @property (weak, nonatomic) IBOutlet UITextField *srcLongSize;
 @property (weak, nonatomic) IBOutlet UITextField *requestURL;
 @property (weak, nonatomic) IBOutlet UITextField *workersIP;
+- (IBAction)pushSaveButton:(UIButton *)sender;
+- (IBAction)pushCancelButton:(UIButton *)sender;
 
 @end
