@@ -11,6 +11,7 @@
 #import "RPDViewControllerAuto.h"
 #import "RPDViewControllerSetting.h"
 #import "RPDViewControllerSetting2.h"
+#import "RPDSettings.h"
 
 @interface RPDAppDelegate ()
 @property RPDViewControllerCamera *vcCamera;
@@ -31,6 +32,10 @@
     // View Controllers for tabController (one viewController per tab)
     NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
 
+    
+    // Singletonオブジェクト生成
+    [RPDSettings sharedManager];
+    
     // 各ビューコントローラの生成と登録
     _vcCamera = [[RPDViewControllerCamera alloc] init];
     _vcAuto = [[RPDViewControllerAuto alloc] init];
