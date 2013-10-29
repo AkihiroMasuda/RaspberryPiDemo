@@ -10,11 +10,12 @@
 #import "RPDViewControllerCamera.h"
 #import "RPDViewControllerAuto.h"
 #import "RPDViewControllerSetting.h"
+#import "RPDViewControllerSetting2.h"
 
 @interface RPDAppDelegate ()
 @property RPDViewControllerCamera *vcCamera;
 @property RPDViewControllerAuto *vcAuto;
-@property RPDViewControllerSetting *vcSetting;
+@property RPDViewControllerSetting2 *vcSetting;
 @property UIViewController *curVC;
 @end
 
@@ -33,7 +34,10 @@
     // 各ビューコントローラの生成と登録
     _vcCamera = [[RPDViewControllerCamera alloc] init];
     _vcAuto = [[RPDViewControllerAuto alloc] init];
-    _vcSetting = [[RPDViewControllerSetting alloc] init];
+//    _vcSetting = [[RPDViewControllerSetting alloc] init];
+//    _vcSetting = [[RPDViewControllerSetting alloc] initWithNibName:@"SettingView" bundle:nil];
+    _vcSetting = [[RPDViewControllerSetting2 alloc] init];
+    
 
     [viewControllers addObject:_vcCamera];
     [viewControllers addObject:_vcAuto];

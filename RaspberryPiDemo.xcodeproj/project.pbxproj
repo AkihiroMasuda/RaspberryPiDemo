@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C3132D13181EBBF10041C8C9 /* image_32.png in Resources */ = {isa = PBXBuildFile; fileRef = C3132D12181EBBF10041C8C9 /* image_32.png */; };
 		C3132D15181EBF4B0041C8C9 /* raspberrypi_144x144.png in Resources */ = {isa = PBXBuildFile; fileRef = C3132D14181EBF4B0041C8C9 /* raspberrypi_144x144.png */; };
+		C3132D1B182000530041C8C9 /* RPDViewControllerSetting2.m in Sources */ = {isa = PBXBuildFile; fileRef = C3132D19182000530041C8C9 /* RPDViewControllerSetting2.m */; };
+		C3132D1C182000530041C8C9 /* RPDViewControllerSetting2.xib in Resources */ = {isa = PBXBuildFile; fileRef = C3132D1A182000530041C8C9 /* RPDViewControllerSetting2.xib */; };
 		C3BE8F3F181CD1DF00EC196D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3BE8F3E181CD1DF00EC196D /* Foundation.framework */; };
 		C3BE8F41181CD1DF00EC196D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3BE8F40181CD1DF00EC196D /* CoreGraphics.framework */; };
 		C3BE8F43181CD1DF00EC196D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3BE8F42181CD1DF00EC196D /* UIKit.framework */; };
@@ -51,6 +53,9 @@
 /* Begin PBXFileReference section */
 		C3132D12181EBBF10041C8C9 /* image_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = image_32.png; path = Resources/picol_prerelease_32_090119/image_32.png; sourceTree = "<group>"; };
 		C3132D14181EBF4B0041C8C9 /* raspberrypi_144x144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = raspberrypi_144x144.png; path = Resources/raspberrypi_144x144.png; sourceTree = "<group>"; };
+		C3132D18182000530041C8C9 /* RPDViewControllerSetting2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerSetting2.h; sourceTree = "<group>"; };
+		C3132D19182000530041C8C9 /* RPDViewControllerSetting2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPDViewControllerSetting2.m; sourceTree = "<group>"; };
+		C3132D1A182000530041C8C9 /* RPDViewControllerSetting2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RPDViewControllerSetting2.xib; sourceTree = "<group>"; };
 		C3BE8F3B181CD1DF00EC196D /* RaspberryPiDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaspberryPiDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3BE8F3E181CD1DF00EC196D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C3BE8F40181CD1DF00EC196D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -170,6 +175,9 @@
 				C3BE9BA5181E731900EC196D /* RPDDefine.h */,
 				C3BE9BAC181E8BE000EC196D /* RPDViewControllerImageViewer.h */,
 				C3BE9BAD181E8BE000EC196D /* RPDViewControllerImageViewer.m */,
+				C3132D18182000530041C8C9 /* RPDViewControllerSetting2.h */,
+				C3132D19182000530041C8C9 /* RPDViewControllerSetting2.m */,
+				C3132D1A182000530041C8C9 /* RPDViewControllerSetting2.xib */,
 			);
 			path = RaspberryPiDemo;
 			sourceTree = "<group>";
@@ -301,6 +309,7 @@
 				C3132D15181EBF4B0041C8C9 /* raspberrypi_144x144.png in Resources */,
 				C3BE9B72181D04BC00EC196D /* refresh_32.png in Resources */,
 				C3BE9B9F181E52B700EC196D /* 01.jpeg in Resources */,
+				C3132D1C182000530041C8C9 /* RPDViewControllerSetting2.xib in Resources */,
 				C3BE9BA3181E52B700EC196D /* 04.jpeg in Resources */,
 				C3BE9BA2181E52B700EC196D /* 03.jpeg in Resources */,
 				C3BE9B6D181D033300EC196D /* settings_32.png in Resources */,
@@ -323,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3BE8F4B181CD1DF00EC196D /* main.m in Sources */,
+				C3132D1B182000530041C8C9 /* RPDViewControllerSetting2.m in Sources */,
 				C3BE8F72181CDFCE00EC196D /* RPDViewControllerCamera.m in Sources */,
 				C3BE9B70181D036500EC196D /* RPDViewControllerSetting.m in Sources */,
 				C3BE9B92181DFBB700EC196D /* RPDAutoStateMachine.m in Sources */,
