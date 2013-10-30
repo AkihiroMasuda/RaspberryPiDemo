@@ -65,6 +65,7 @@
     [_srcLongSize setText:st.srcLongSize];
     [_requestURL setText:st.requestURL];
     [_workersIP setText:st.workersIP];
+    [_ledEnable setOn:[st.ledEnable isEqualToString:@"True"]];
 }
 
 -(void)saveViewToSettings
@@ -74,6 +75,7 @@
     st.srcLongSize = _srcLongSize.text;
     st.requestURL = _requestURL.text;
     st.workersIP = _workersIP.text;
+    st.ledEnable = _ledEnable.isOn ? @"True" : @"False";
 }
 
 - (void)tabBarDidSelect

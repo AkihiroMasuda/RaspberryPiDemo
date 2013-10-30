@@ -16,6 +16,7 @@
 #define SRC_LONG_SIZE @"32" // 画像をダウンスケールしたときの長編の画素数。多いほど細かい画像になる
 #define REQUEST_URL @"http://192.168.1.2:8080/posttest" //サーバへのリクエストURL
 #define WORKERS_IP @"192.168.1.240,192.168.1.241,192.168.1.242,192.168.1.243" //分散処理サーバのIP
+#define LED_ENABLE @"False"
 
 #define IMAGE_VIEW_MIN_SCALE (0.02f)
 #define IMAGE_VIEW_MAX_SCALE (10.f)

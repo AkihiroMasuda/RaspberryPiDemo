@@ -29,6 +29,7 @@
         _srcLongSize = SRC_LONG_SIZE;
         _requestURL = REQUEST_URL;
         _workersIP = WORKERS_IP;
+        _ledEnable = LED_ENABLE;
     }
     return self;
 }

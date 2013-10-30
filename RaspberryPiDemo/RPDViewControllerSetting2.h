@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *srcLongSize;
 @property (weak, nonatomic) IBOutlet UITextField *requestURL;
 @property (weak, nonatomic) IBOutlet UITextField *workersIP;
+@property (weak, nonatomic) IBOutlet UISwitch *ledEnable;
 - (IBAction)pushSaveButton:(UIButton *)sender;
 - (IBAction)pushCancelButton:(UIButton *)sender;
 

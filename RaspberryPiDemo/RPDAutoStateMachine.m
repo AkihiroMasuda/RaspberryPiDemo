@@ -425,6 +425,7 @@
     NSString* txtSrcLongSize = st.srcLongSize;
     [request addBody:txtSrcLongSize forKey:@"srcLongSize"];
     [request addBody:st.workersIP forKey:@"workers"];
+    [request addBody:st.ledEnable forKey:@"ledEnable"];
 //    [request addBody:@"192.168.1.2" forKey:@"workers"];
 //    [request addBody:@"192.168.43.215" forKey:@"workers"];
     NSData *pngData = [[NSData alloc] initWithData:UIImagePNGRepresentation(originalImage)];

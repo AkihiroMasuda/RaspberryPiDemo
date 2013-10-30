@@ -13,7 +13,7 @@
 @property NSString *srcLongSize;
 @property NSString *requestURL;
 @property NSString *workersIP;
-
+@property NSString *ledEnable;
 + (RPDSettings*)sharedManager;
 
 @end
