@@ -9,7 +9,6 @@
 #import "RPDAppDelegate.h"
 #import "RPDViewControllerCamera.h"
 #import "RPDViewControllerAuto.h"
-#import "RPDViewControllerSetting.h"
 #import "RPDViewControllerSetting2.h"
 #import "RPDSettings.h"
 
