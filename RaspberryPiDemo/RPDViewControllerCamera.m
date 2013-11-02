@@ -81,7 +81,7 @@
         [self.view addSubview:btn];
     }
 //    _img1 = nil;
-    _img1 = [UIImage imageNamed:@"01.jpeg"];
+    _img1 = [UIImage imageNamed:@"03.jpeg"];
     [self loadFirstImageView];
 }
 

@@ -47,7 +47,7 @@
         _vcAuto = vcAuto;
         _curStatus = STATUS_STOP;
         _imgIndex = 0;
-        _imgSamples = [NSArray arrayWithObjects:@"02.jpeg", @"03.jpeg", @"04.jpeg", @"01.jpeg", @"05.jpeg", nil];
+        _imgSamples = [NSArray arrayWithObjects:@"02.jpeg", @"03.jpeg", @"04.jpeg", @"01.jpeg", @"05.jpeg", @"06.jpeg", nil];
     }
     return self;
 }
@@ -316,6 +316,7 @@
         
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview1.frame = CGRectMake(0, HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2);
+        imgview1.contentMode = UIViewContentModeScaleAspectFit; //アスペクト比を維持したまま 画像のすべてが表示されるようにリサイズ
         [_vcAuto.view addSubview:imgview1];
         _img1 = imgview1.image;
         _imgv1 = imgview1;
@@ -385,6 +386,7 @@
         UIImageView *imgview2 = [self createImageViewWithImage:_img2];
         CGSize frameSize = _vcAuto.view.frame.size;
         imgview2.frame = CGRectMake(0, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2 + HEADER_HEIGHT, frameSize.width, (frameSize.height-HEADER_HEIGHT-TABBAR_HEIGHT)/2);
+        imgview2.contentMode = UIViewContentModeScaleAspectFit; //アスペクト比を維持したまま 画像のすべてが表示されるようにリサイズ
         [_vcAuto.view addSubview:imgview2];
         _imgv2 = imgview2;
     }
