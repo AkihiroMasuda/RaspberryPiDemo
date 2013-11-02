@@ -27,7 +27,6 @@
 		C3BE8F72181CDFCE00EC196D /* RPDViewControllerCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE8F71181CDFCE00EC196D /* RPDViewControllerCamera.m */; };
 		C3BE8F75181CE09100EC196D /* RPDViewControllerAuto.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE8F74181CE09100EC196D /* RPDViewControllerAuto.m */; };
 		C3BE9B6D181D033300EC196D /* settings_32.png in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B6C181D033300EC196D /* settings_32.png */; };
-		C3BE9B70181D036500EC196D /* RPDViewControllerSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B6F181D036500EC196D /* RPDViewControllerSetting.m */; };
 		C3BE9B72181D04BC00EC196D /* refresh_32.png in Resources */ = {isa = PBXBuildFile; fileRef = C3BE9B71181D04BC00EC196D /* refresh_32.png */; };
 		C3BE9B92181DFBB700EC196D /* RPDAutoStateMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */; };
 		C3BE9B95181E101D00EC196D /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = C3BE9B94181E101D00EC196D /* MBProgressHUD.m */; };
@@ -80,8 +79,6 @@
 		C3BE8F73181CE09100EC196D /* RPDViewControllerAuto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerAuto.h; sourceTree = "<group>"; };
 		C3BE8F74181CE09100EC196D /* RPDViewControllerAuto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPDViewControllerAuto.m; sourceTree = "<group>"; };
 		C3BE9B6C181D033300EC196D /* settings_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = settings_32.png; path = Resources/picol_prerelease_32_090119/settings_32.png; sourceTree = "<group>"; };
-		C3BE9B6E181D036500EC196D /* RPDViewControllerSetting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerSetting.h; sourceTree = "<group>"; };
-		C3BE9B6F181D036500EC196D /* RPDViewControllerSetting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RPDViewControllerSetting.m; sourceTree = "<group>"; };
 		C3BE9B71181D04BC00EC196D /* refresh_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh_32.png; path = Resources/picol_prerelease_32_090119/refresh_32.png; sourceTree = "<group>"; };
 		C3BE9B8D181D474D00EC196D /* RPDViewControllerBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDViewControllerBase.h; sourceTree = "<group>"; };
 		C3BE9B90181DFBB700EC196D /* RPDAutoStateMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RPDAutoStateMachine.h; sourceTree = "<group>"; };
@@ -170,8 +167,6 @@
 				C3BE8F71181CDFCE00EC196D /* RPDViewControllerCamera.m */,
 				C3BE8F73181CE09100EC196D /* RPDViewControllerAuto.h */,
 				C3BE8F74181CE09100EC196D /* RPDViewControllerAuto.m */,
-				C3BE9B6E181D036500EC196D /* RPDViewControllerSetting.h */,
-				C3BE9B6F181D036500EC196D /* RPDViewControllerSetting.m */,
 				C3BE9B8D181D474D00EC196D /* RPDViewControllerBase.h */,
 				C3BE9B90181DFBB700EC196D /* RPDAutoStateMachine.h */,
 				C3BE9B91181DFBB700EC196D /* RPDAutoStateMachine.m */,
@@ -339,7 +334,6 @@
 				C3BE8F4B181CD1DF00EC196D /* main.m in Sources */,
 				C3132D1B182000530041C8C9 /* RPDViewControllerSetting2.m in Sources */,
 				C3BE8F72181CDFCE00EC196D /* RPDViewControllerCamera.m in Sources */,
-				C3BE9B70181D036500EC196D /* RPDViewControllerSetting.m in Sources */,
 				C3BE9B92181DFBB700EC196D /* RPDAutoStateMachine.m in Sources */,
 				C3BE8F4F181CD1DF00EC196D /* RPDAppDelegate.m in Sources */,
 				C3BE8F75181CE09100EC196D /* RPDViewControllerAuto.m in Sources */,
