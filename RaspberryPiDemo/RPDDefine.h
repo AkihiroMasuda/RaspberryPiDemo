@@ -9,7 +9,8 @@
 #ifndef RaspberryPiDemo_Header_h
 #define RaspberryPiDemo_Header_h
 
-#define TIMER_INTERVAL (3.0f)
+#define TIMER_INTERVAL1 (3.0f)
+#define TIMER_INTERVAL2 (5.0f)
 #define HEADER_HEIGHT (60)
 #define TABBAR_HEIGHT (60)
 #define NUM_OF_SAMPLE_IMAGES @"500" // モザイク画作成につかうサンプル数。多いほど精度良くなる

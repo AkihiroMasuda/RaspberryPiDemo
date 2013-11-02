@@ -14,6 +14,9 @@
 @property NSString *requestURL;
 @property NSString *workersIP;
 @property NSString *ledEnable;
+@property double timerIntarval1;
+@property double timerIntarval2;
+
 + (RPDSettings*)sharedManager;
 
 @end

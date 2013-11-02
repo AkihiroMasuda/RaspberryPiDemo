@@ -66,6 +66,8 @@
     [_requestURL setText:st.requestURL];
     [_workersIP setText:st.workersIP];
     [_ledEnable setOn:[st.ledEnable isEqualToString:@"True"]];
+    [_timerInterval1 setText:[NSString stringWithFormat:@"%lf", st.timerIntarval1]];
+    [_timerInterval2 setText:[NSString stringWithFormat:@"%lf", st.timerIntarval2]];
 }
 
 -(void)saveViewToSettings
@@ -76,6 +78,8 @@
     st.requestURL = _requestURL.text;
     st.workersIP = _workersIP.text;
     st.ledEnable = _ledEnable.isOn ? @"True" : @"False";
+    st.timerIntarval1 = [_timerInterval1.text doubleValue];
+    st.timerIntarval2 = [_timerInterval2.text doubleValue];
 }
 
 - (void)tabBarDidSelect

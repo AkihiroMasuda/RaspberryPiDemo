@@ -131,7 +131,8 @@
 //    [_btnImageViewer setEnabled:false];
     _btnImageViewer.enabled = NO;
     // タイマーを発行。一定時間後にEVENT_NEXTを発行
-    [self makeAndStartTimerForEventNext];
+    RPDSettings *st = [RPDSettings sharedManager];
+    [self makeAndStartTimerForEventNext:st.timerIntarval1];
 }
 
 - (void) statusInit:(int)event
@@ -164,7 +165,8 @@
         [self createMosaicImage];
     }else{
         // デバッグ用
-        [self makeAndStartTimerForEventNext];
+        RPDSettings *st = [RPDSettings sharedManager];
+        [self makeAndStartTimerForEventNext:st.timerIntarval1];
     }
 
 }
@@ -198,7 +200,8 @@
     [self loadSecondImageView];
     
     // タイマーを発行。一定時間後にEVENT_NEXTを発行
-    [self makeAndStartTimerForEventNext];
+    RPDSettings *st = [RPDSettings sharedManager];
+    [self makeAndStartTimerForEventNext:st.timerIntarval2];
 }
 - (void) statusFinished:(int)event
 {
@@ -222,11 +225,11 @@
 
 
 ////// 内部メソッド
-- (NSTimer*) makeAndStartTimerForEventNext
+- (NSTimer*) makeAndStartTimerForEventNext:(double)timerInterval
 {
     NSTimer *timer = [NSTimer
                       // タイマーイベントを発生させる感覚。「1.5」は 1.5秒 型は float
-                      scheduledTimerWithTimeInterval:TIMER_INTERVAL
+                      scheduledTimerWithTimeInterval:timerInterval
                       // 呼び出すメソッドの呼び出し先(selector) self はこのファイル(.m)
                       target:self
                       // 呼び出すメソッド名。「:」で自分自身(タイマーインスタンス)を渡す。

@@ -30,6 +30,8 @@
         _requestURL = REQUEST_URL;
         _workersIP = WORKERS_IP;
         _ledEnable = LED_ENABLE;
+        _timerIntarval1 = TIMER_INTERVAL1;
+        _timerIntarval2 = TIMER_INTERVAL2;
     }
     return self;
 }

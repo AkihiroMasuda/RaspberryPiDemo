@@ -17,5 +17,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *ledEnable;
 - (IBAction)pushSaveButton:(UIButton *)sender;
 - (IBAction)pushCancelButton:(UIButton *)sender;
+@property (weak, nonatomic) IBOutlet UITextField *timerInterval1;
+@property (weak, nonatomic) IBOutlet UITextField *timerInterval2;
 
 @end
